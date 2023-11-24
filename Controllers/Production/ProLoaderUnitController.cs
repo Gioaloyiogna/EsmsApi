@@ -10,9 +10,9 @@ namespace ServiceManagerApi.Controllers.Production;
 [ApiController]
 public class ProLoaderUnitController : BaeApiController<ProLoaderUnitController>
 {
-    private readonly EnpDbContext _context;
+    private readonly EnpDBContext _context;
 
-    public ProLoaderUnitController(EnpDbContext context)
+    public ProLoaderUnitController(EnpDBContext context)
     {
         _context = context;
     }

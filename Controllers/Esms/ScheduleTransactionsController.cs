@@ -9,9 +9,9 @@ namespace ServiceManagerApi.Controllers.Esms
     [ApiController]
     public class ScheduleTransactionsController : BaeApiController<ScheduleTransaction>
     {
-        private readonly EnpDbContext _context;
+        private readonly EnpDBContext _context;
 
-        public ScheduleTransactionsController(EnpDbContext context)
+        public ScheduleTransactionsController(EnpDBContext context)
         {
             _context = context;
         }

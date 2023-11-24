@@ -14,4 +14,6 @@ public partial class Category
     public string? TenantId { get; set; }
 
     public virtual ICollection<Equipment> Equipment { get; set; } = new List<Equipment>();
+
+    public virtual ICollection<FaultEntry> FaultEntries { get; set; } = new List<FaultEntry>();
 }

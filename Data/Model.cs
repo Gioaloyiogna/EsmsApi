@@ -19,7 +19,11 @@ public partial class Model
 
     public string? TenantId { get; set; }
 
+    public virtual ICollection<Component> Components { get; set; } = new List<Component>();
+
     public virtual ICollection<Equipment> Equipment { get; set; } = new List<Equipment>();
+
+    public virtual ICollection<EquipmentComponentSchedule> EquipmentComponentSchedules { get; set; } = new List<EquipmentComponentSchedule>();
 
     public virtual ICollection<LubeConfig> LubeConfigs { get; set; } = new List<LubeConfig>();
 

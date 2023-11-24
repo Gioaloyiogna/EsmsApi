@@ -10,4 +10,6 @@ public partial class Source
     public string? Name { get; set; }
 
     public string? TenantId { get; set; }
+
+    public virtual ICollection<LubeDispensing> LubeDispensings { get; set; } = new List<LubeDispensing>();
 }

@@ -8,11 +8,11 @@ namespace ServiceManagerApi.Repository
     public class GenericRepositoryAsync<T> : IGenericRepositoryAsync<T> where T : class
     {
 
-        protected readonly EnpDbContext _context;
+        protected readonly EnpDBContext _context;
         private readonly DbSet<T> _dbSet;
 
 
-        public GenericRepositoryAsync(EnpDbContext context)
+        public GenericRepositoryAsync(EnpDBContext context)
         {
             _context = context;
             _dbSet = _context.Set<T>();

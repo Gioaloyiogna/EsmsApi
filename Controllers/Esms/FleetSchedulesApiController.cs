@@ -10,9 +10,9 @@ namespace ServiceManagerApi.Controllers.Esms;
 [ApiController]
 public class FleetSchedulesApiController : BaeApiController<FleetSchedulesApiController>
 {
-  private readonly EnpDbContext _context;
+  private readonly EnpDBContext _context;
 
-  public FleetSchedulesApiController(EnpDbContext context)
+  public FleetSchedulesApiController(EnpDBContext context)
   {
     _context = context;
   }

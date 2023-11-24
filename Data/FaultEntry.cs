@@ -42,4 +42,14 @@ public partial class FaultEntry
     public string? FaultDetails { get; set; }
 
     public DateTime ReportedDate { get; set; }
+
+    public DateTime? ExpectedUpTime { get; set; }
+
+    public int? CategoryId { get; set; }
+
+    public string? System { get; set; }
+
+    public int? Duration { get; set; }
+
+    public virtual Category? Category { get; set; }
 }

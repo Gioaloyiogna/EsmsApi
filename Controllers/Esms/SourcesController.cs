@@ -13,9 +13,9 @@ namespace ServiceManagerApi.Controllers.Esms;
 [ApiController]
 public class SourcesController : ControllerBase
 {
-  private readonly EnpDbContext _context;
+  private readonly EnpDBContext _context;
 
-  public SourcesController(EnpDbContext context)
+  public SourcesController(EnpDBContext context)
   {
     _context = context;
   }

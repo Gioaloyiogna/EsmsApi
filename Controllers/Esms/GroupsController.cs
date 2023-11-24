@@ -9,9 +9,9 @@ namespace ServiceManagerApi.Controllers.Esms
     [ApiController]
     public class GroupsController : BaeApiController<GroupsController>
     {
-        private readonly EnpDbContext _context;
+        private readonly EnpDBContext _context;
 
-        public GroupsController(EnpDbContext context)
+        public GroupsController(EnpDBContext context)
         {
             _context = context;
         }

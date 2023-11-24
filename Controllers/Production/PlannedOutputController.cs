@@ -8,9 +8,9 @@ namespace ServiceManagerApi.Controllers.Production
 {
     public class PlannedOutputController : BaeApiController<PlannedOutputController>
     {
-        private readonly EnpDbContext _context;
+        private readonly EnpDBContext _context;
 
-        public PlannedOutputController(EnpDbContext context)
+        public PlannedOutputController(EnpDBContext context)
         {
             _context = context;
         }

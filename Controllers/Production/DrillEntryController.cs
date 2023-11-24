@@ -11,9 +11,9 @@ namespace ServiceManagerApi.Controllers.Production
     [ApiController]
     public class DrillEntryController : BaeApiController<DrillEntryController>
     {
-        private readonly EnpDbContext _context;
+        private readonly EnpDBContext _context;
 
-        public DrillEntryController(EnpDbContext context)
+        public DrillEntryController(EnpDBContext context)
         {
             _context = context;
         }

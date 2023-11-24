@@ -8,9 +8,9 @@ namespace ServiceManagerApi.Controllers.Esms;
 [ApiController]
 public class ModelClassesController : ControllerBase
 {
-  private readonly EnpDbContext _context;
+  private readonly EnpDBContext _context;
 
-  public ModelClassesController(EnpDbContext context)
+  public ModelClassesController(EnpDBContext context)
   {
     _context = context;
   }

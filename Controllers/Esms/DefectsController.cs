@@ -8,9 +8,9 @@ namespace ServiceManagerApi.Controllers.Esms
     [ApiController]
     public class DefectsController : ControllerBase
     {
-        private readonly EnpDbContext _context;
+        private readonly EnpDBContext _context;
 
-        public DefectsController(EnpDbContext context)
+        public DefectsController(EnpDBContext context)
         {
             _context = context;
         }

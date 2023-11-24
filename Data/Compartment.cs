@@ -13,5 +13,7 @@ public partial class Compartment
 
     public virtual ICollection<LubeConfig> LubeConfigs { get; set; } = new List<LubeConfig>();
 
+    public virtual ICollection<LubeDispensing> LubeDispensings { get; set; } = new List<LubeDispensing>();
+
     public virtual ICollection<LubeEntry> LubeEntries { get; set; } = new List<LubeEntry>();
 }

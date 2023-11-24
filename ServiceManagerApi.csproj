@@ -1,71 +1,76 @@
 ﻿<Project Sdk="Microsoft.NET.Sdk.Web">
 
-  <PropertyGroup>
-    <TargetFramework>net6.0</TargetFramework>
-    <Nullable>enable</Nullable>
-    <ImplicitUsings>enable</ImplicitUsings>
-  </PropertyGroup>
+    <PropertyGroup>
+        <TargetFramework>net6.0</TargetFramework>
+        <Nullable>enable</Nullable>
+        <ImplicitUsings>enable</ImplicitUsings>
+    </PropertyGroup>
 
-  <ItemGroup>
-    <PackageReference Include="AspNetCoreHero.Results" Version="1.1.1" />
-    <PackageReference Include="AutoMapper.Extensions.Microsoft.DependencyInjection" Version="12.0.0" />
-    <PackageReference Include="Microsoft.AspNetCore.Authentication.JwtBearer" Version="6.0.11" />
-    <PackageReference Include="Microsoft.AspNetCore.Cors" Version="2.2.0" />
-    <PackageReference Include="Microsoft.AspNetCore.JsonPatch" Version="6.0.11" />
-    <PackageReference Include="Microsoft.AspNetCore.Mvc.NewtonsoftJson" Version="6.0.11" />
-    <PackageReference Include="Microsoft.EntityFrameworkCore" Version="7.0.5" />
-    <PackageReference Include="Microsoft.EntityFrameworkCore.Design" Version="7.0.5">
-      <PrivateAssets>all</PrivateAssets>
-      <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
-    </PackageReference>
-    <PackageReference Include="Microsoft.EntityFrameworkCore.Sqlite" Version="7.0.5" />
-    <PackageReference Include="Microsoft.EntityFrameworkCore.SqlServer" Version="7.0.5" />
-    <PackageReference Include="Microsoft.EntityFrameworkCore.Tools" Version="7.0.5">
-      <PrivateAssets>all</PrivateAssets>
-      <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
-    </PackageReference>
-    <PackageReference Include="Microsoft.Extensions.Caching.StackExchangeRedis" Version="7.0.8" />
-    <PackageReference Include="Microsoft.VisualStudio.Web.CodeGeneration.Design" Version="6.0.13" />
-    <PackageReference Include="Microsoft.VisualStudio.Web.CodeGeneration.EntityFrameworkCore" Version="6.0.13" />
-    <PackageReference Include="StackExchange.Redis" Version="2.6.116" />
-    <PackageReference Include="Swashbuckle.AspNetCore" Version="6.2.3" />
-  </ItemGroup>
+    <ItemGroup>
+        <PackageReference Include="AspNetCoreHero.Results" Version="1.1.1" />
+        <PackageReference Include="AutoMapper.Extensions.Microsoft.DependencyInjection" Version="12.0.0" />
+        <PackageReference Include="Microsoft.AspNetCore.Authentication.JwtBearer" Version="6.0.11" />
+        <PackageReference Include="Microsoft.AspNetCore.Cors" Version="2.2.0" />
+        <PackageReference Include="Microsoft.AspNetCore.JsonPatch" Version="6.0.11" />
+        <PackageReference Include="Microsoft.AspNetCore.Mvc.NewtonsoftJson" Version="6.0.11" />
+        <PackageReference Include="Microsoft.EntityFrameworkCore" Version="7.0.5" />
+        <PackageReference Include="Microsoft.EntityFrameworkCore.Design" Version="7.0.5">
+            <PrivateAssets>all</PrivateAssets>
+            <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
+        </PackageReference>
+        <PackageReference Include="Microsoft.EntityFrameworkCore.Sqlite" Version="7.0.5" />
+        <PackageReference Include="Microsoft.EntityFrameworkCore.SqlServer" Version="7.0.5" />
+        <PackageReference Include="Microsoft.EntityFrameworkCore.Tools" Version="7.0.5">
+            <PrivateAssets>all</PrivateAssets>
+            <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
+        </PackageReference>
+        <PackageReference Include="Microsoft.Extensions.Caching.StackExchangeRedis" Version="7.0.8" />
+        <PackageReference Include="Microsoft.VisualStudio.Web.CodeGeneration.Design" Version="6.0.13" />
+        <PackageReference Include="Microsoft.VisualStudio.Web.CodeGeneration.EntityFrameworkCore" Version="6.0.13" />
+        <PackageReference Include="StackExchange.Redis" Version="2.6.116" />
+        <PackageReference Include="Swashbuckle.AspNetCore" Version="6.2.3" />
+    </ItemGroup>
 
-  <ItemGroup>
-    <Folder Include="wwwroot\" />
-  </ItemGroup>
+    <ItemGroup>
+        <Folder Include="Uploads\Equipment\" />
+        <Folder Include="wwwroot\" />
+    </ItemGroup>
 
-<!--<<<<<<< HEAD-->
-  <ItemGroup>
-    <_ContentIncludedByDefault Remove="Copy\web.config" />
-    <_ContentIncludedByDefault Remove="Copy\appsettings.Development.json" />
-    <_ContentIncludedByDefault Remove="Copy\appsettings.json" />
-    <_ContentIncludedByDefault Remove="Copy\ServiceManagerApi.deps.json" />
-    <_ContentIncludedByDefault Remove="Copy\ServiceManagerApi.runtimeconfig.json" />
-  </ItemGroup>
-  <ItemGroup>
-    <Content Include=".github\workflows\deploy.yml" />
-    <Content Remove="3\**" />
-    <Content Remove="Dtos\proDrillEntry\**" />
-  </ItemGroup>
-  <ItemGroup>
-    <Compile Remove="3\**" />
-    <Compile Remove="Controllers\Production\ProDrillEntryController.cs" />
-    <Compile Remove="Dtos\proDrillEntry\**" />
-    <Compile Remove="Data\ProDrillEntry.cs" />
-  </ItemGroup>
-  <ItemGroup>
-    <EmbeddedResource Remove="3\**" />
-    <EmbeddedResource Remove="Dtos\proDrillEntry\**" />
-  </ItemGroup>
-  <ItemGroup>
-    <None Remove="3\**" />
-    <None Remove="Dtos\proDrillEntry\**" />
-  </ItemGroup>
+    <!--<<<<<<< HEAD-->
+    <ItemGroup>
+        <_ContentIncludedByDefault Remove="Copy\web.config" />
+        <_ContentIncludedByDefault Remove="Copy\appsettings.Development.json" />
+        <_ContentIncludedByDefault Remove="Copy\appsettings.json" />
+        <_ContentIncludedByDefault Remove="Copy\ServiceManagerApi.deps.json" />
+        <_ContentIncludedByDefault Remove="Copy\ServiceManagerApi.runtimeconfig.json" />
+    </ItemGroup>
+    <ItemGroup>
+        <Content Include=".github\workflows\deploy.yml" />
+        <Content Remove="3\**" />
+        <Content Remove="Dtos\proDrillEntry\**" />
+    </ItemGroup>
+    <ItemGroup>
+        <Compile Remove="3\**" />
+        <Compile Remove="Controllers\Production\ProDrillEntryController.cs" />
+        <Compile Remove="Dtos\proDrillEntry\**" />
+        <Compile Remove="Data\ProDrillEntry.cs" />
+    </ItemGroup>
+    <ItemGroup>
+        <EmbeddedResource Remove="3\**" />
+        <EmbeddedResource Remove="Dtos\proDrillEntry\**" />
+    </ItemGroup>
+    <ItemGroup>
+        <None Remove="3\**" />
+        <None Remove="Dtos\proDrillEntry\**" />
+    </ItemGroup>
 
-<!--  <ProjectExtensions><VisualStudio><UserProperties appsettings_1development_1json__JsonSchema="https://geojson.org/schema/GeoJSON.json" /></VisualStudio></ProjectExtensions>-->
-<!--=======-->
-  <ProjectExtensions><VisualStudio><UserProperties /></VisualStudio></ProjectExtensions>
-<!--&gt;>>>>>> c1df7d9b09ee77c84c8cc8cf1f5f5ed42c9866b3-->
+    <!--  <ProjectExtensions><VisualStudio><UserProperties appsettings_1development_1json__JsonSchema="https://geojson.org/schema/GeoJSON.json" /></VisualStudio></ProjectExtensions>-->
+    <!--=======-->
+    <ProjectExtensions>
+        <VisualStudio>
+            <UserProperties />
+        </VisualStudio>
+    </ProjectExtensions>
+    <!--&gt;>>>>>> c1df7d9b09ee77c84c8cc8cf1f5f5ed42c9866b3-->
 
 </Project>

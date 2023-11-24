@@ -9,9 +9,9 @@ namespace ServiceManagerApi.Controllers.Esms
     [ApiController]
     public class ItemValueController : BaeApiController<ItemValueController>
     {
-        private readonly EnpDbContext _context;
+        private readonly EnpDBContext _context;
 
-        public ItemValueController(EnpDbContext context)
+        public ItemValueController(EnpDBContext context)
         {
             _context = context;
         }

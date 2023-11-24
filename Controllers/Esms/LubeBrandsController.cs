@@ -12,9 +12,9 @@ namespace ServiceManagerApi.Controllers.Esms
     [ApiController]
     public class LubeBrandsController : BaeApiController<LubeBrandsController>
     {
-        private EnpDbContext _context;
+        private EnpDBContext _context;
 
-        public LubeBrandsController(EnpDbContext context)
+        public LubeBrandsController(EnpDBContext context)
         {
             _context = context;
         }

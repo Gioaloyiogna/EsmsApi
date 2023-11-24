@@ -1,5 +1,6 @@
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.Extensions.FileProviders;
 using Newtonsoft.Json;
 using ServiceManagerApi.ActivityLog;
 using ServiceManagerApi.Data;
@@ -20,7 +21,7 @@ builder.Services.AddDbContext<ServiceManagerContext>(options =>
 var EnPconnectionString = builder.Configuration.GetConnectionString("EnpConnectionString");
 var UserDbConnection = builder.Configuration.GetConnectionString("UserDbConnection");
 
-builder.Services.AddDbContext<EnpDbContext>(options => options.UseSqlServer(EnPconnectionString));
+builder.Services.AddDbContext<EnpDBContext>(options => options.UseSqlServer(EnPconnectionString));
 builder.Services.AddDbContext<UserDbContext>(options => options.UseSqlServer(UserDbConnection));
 
 //builder.Services.AddScoped<ActivityLog>();
@@ -79,7 +80,11 @@ if (app.Environment.IsDevelopment())
 
 
 app.UseHttpsRedirection();
-
+app.UseStaticFiles(new StaticFileOptions
+{
+    FileProvider = new PhysicalFileProvider(Path.Combine(builder.Environment.ContentRootPath, "Uploads")),
+    RequestPath = "/Uploads"
+});
 app.UseAuthorization();
 
 app.MapControllers();

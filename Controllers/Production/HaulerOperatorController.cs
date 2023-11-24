@@ -8,9 +8,9 @@ namespace ServiceManagerApi.Controllers.Production
 {
     public class HaulerOperatorController : BaeApiController<HaulerOperatorController>
     {
-        private readonly EnpDbContext _context;
+        private readonly EnpDBContext _context;
 
-        public HaulerOperatorController(EnpDbContext context)
+        public HaulerOperatorController(EnpDBContext context)
         {
             _context = context;
         }

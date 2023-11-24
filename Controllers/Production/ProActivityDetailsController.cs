@@ -8,9 +8,9 @@ namespace ServiceManagerApi.Controllers.Production
 {
     public class ProActivityDetailsController : BaeApiController<ProActivityDetailsController>
     {
-        private readonly EnpDbContext _context;
+        private readonly EnpDBContext _context;
 
-        public ProActivityDetailsController(EnpDbContext context)
+        public ProActivityDetailsController(EnpDBContext context)
         {
             _context = context;
         }

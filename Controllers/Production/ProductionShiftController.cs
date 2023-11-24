@@ -8,9 +8,9 @@ namespace ServiceManagerApi.Controllers.Production
 {
     public class ProductionShiftController : BaeApiController<ProductionShiftController>
     {
-        private readonly EnpDbContext _context;
+        private readonly EnpDBContext _context;
 
-        public ProductionShiftController(EnpDbContext context)
+        public ProductionShiftController(EnpDBContext context)
         {
             _context = context;
         }

@@ -9,9 +9,9 @@ namespace ServiceManagerApi.Controllers.Esms;
 [ApiController]
 public class RefillTypeController : BaeApiController<RefillTypeController>
 {
-  private readonly EnpDbContext _context;
+  private readonly EnpDBContext _context;
 
-  public RefillTypeController(EnpDbContext context)
+  public RefillTypeController(EnpDBContext context)
   {
     _context = context;
   }

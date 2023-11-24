@@ -10,9 +10,9 @@ namespace ServiceManagerApi.Controllers.Production
   
     public class CycleDetailsController : BaeApiController<CycleDetailsController>
     {
-        private readonly EnpDbContext _context;
+        private readonly EnpDBContext _context;
 
-        public CycleDetailsController(EnpDbContext context)
+        public CycleDetailsController(EnpDBContext context)
         {
             _context = context;
         }

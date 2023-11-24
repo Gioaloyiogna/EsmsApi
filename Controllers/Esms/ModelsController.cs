@@ -9,10 +9,10 @@ namespace ServiceManagerApi.Controllers.Esms;
 [ApiController]
 public class ModelsController : BaeApiController<ModelsController>
 {
-  private readonly EnpDbContext _context;
+  private readonly EnpDBContext _context;
   private readonly IWebHostEnvironment webHostEnvironment;
 
-  public ModelsController(EnpDbContext context, IWebHostEnvironment webHostEnvironment)
+  public ModelsController(EnpDBContext context, IWebHostEnvironment webHostEnvironment)
   {
     _context = context;
     this.webHostEnvironment = webHostEnvironment;

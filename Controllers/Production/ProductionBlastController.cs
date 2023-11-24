@@ -16,9 +16,9 @@ namespace ServiceManagerApi.Controllers.Production
     [ApiController]
     public class ProductionBlastController : BaeApiController<ProductionBlastController>
     {
-        private readonly EnpDbContext _context;
+        private readonly EnpDBContext _context;
 
-        public ProductionBlastController(EnpDbContext context)
+        public ProductionBlastController(EnpDBContext context)
         {
             _context = context;
         }

@@ -13,9 +13,9 @@ namespace ServiceManagerApi.Controllers.Esms;
 [ApiController]
 public class CustodiansController : ControllerBase
 {
-  private readonly EnpDbContext _context;
+  private readonly EnpDBContext _context;
 
-  public CustodiansController(EnpDbContext context)
+  public CustodiansController(EnpDBContext context)
   {
     _context = context;
   }

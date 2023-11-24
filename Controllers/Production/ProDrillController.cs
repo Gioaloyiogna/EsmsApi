@@ -8,9 +8,9 @@ namespace ServiceManagerApi.Controllers.Production
 {
     public class ProDrillController : BaeApiController<ProDrillController>
     {
-        private readonly EnpDbContext _context;
+        private readonly EnpDBContext _context;
 
-        public ProDrillController(EnpDbContext context)
+        public ProDrillController(EnpDBContext  context)
         {
             _context = context;
         }

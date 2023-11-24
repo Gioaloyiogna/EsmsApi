@@ -13,9 +13,9 @@ namespace ServiceManagerApi.Controllers.Esms;
 [ApiController]
 public class DownTypesController : ControllerBase
 {
-  private readonly EnpDbContext _context;
+  private readonly EnpDBContext _context;
 
-  public DownTypesController(EnpDbContext context)
+  public DownTypesController(EnpDBContext context)
   {
     _context = context;
   }

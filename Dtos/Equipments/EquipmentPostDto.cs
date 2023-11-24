@@ -24,12 +24,14 @@ public record EquipmentPostDto
   public string? Note { get; set; }
 
   public DateTime? WarrantyStartDate { get; set; }
-
+  public DateTime? ComissionDate { get; set; }
   public DateTime? WarrantyEndDate { get; set; }
-
+  public string? EquipmentPicture { get; set; }
+  public DateTime? SiteArrivalDate { get; set; }
+  public int? Category { get; set; }
   public string? UniversalCode { get; set; }
-
-  [Required] public int InitialReading { get; set; }
+  public IFormFile? ImageFile { get; set; }
+    [Required] public int InitialReading { get; set; }
 
   [Required] public string MeterType { get; set; } = null!;
 

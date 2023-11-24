@@ -9,9 +9,9 @@ namespace ServiceManagerApi.Controllers.Esms;
 [ApiController]
 public class CompartmentController : BaeApiController<CompartmentController>
 {
-  private readonly EnpDbContext _context;
+  private readonly EnpDBContext _context;
 
-  public CompartmentController(EnpDbContext context)
+  public CompartmentController(EnpDBContext context)
   {
     _context = context;
   }

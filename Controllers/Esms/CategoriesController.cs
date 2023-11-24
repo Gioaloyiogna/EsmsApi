@@ -8,9 +8,9 @@ namespace ServiceManagerApi.Controllers.Esms
     [ApiController]
     public class CategoriesController : ControllerBase
     {
-        private readonly EnpDbContext _context;
+        private readonly EnpDBContext _context;
 
-        public CategoriesController(EnpDbContext context)
+        public CategoriesController(EnpDBContext context)
         {
             _context = context;
         }

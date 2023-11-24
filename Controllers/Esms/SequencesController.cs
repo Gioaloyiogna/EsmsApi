@@ -14,9 +14,9 @@ namespace ServiceManagerApi.Controllers.Esms;
 [ApiController]
 public class SequencesController : BaeApiController<SequencesController>
 {
-  private readonly EnpDbContext _context;
+  private readonly EnpDBContext _context;
 
-  public SequencesController(EnpDbContext context)
+  public SequencesController(EnpDBContext context)
   {
     _context = context;
   }

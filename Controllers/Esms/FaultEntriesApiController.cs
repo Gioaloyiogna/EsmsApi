@@ -10,9 +10,9 @@ namespace ServiceManagerApi.Controllers.Esms;
 [ApiController]
 public class FaultEntriesApiController : BaeApiController<FaultEntryPostDto>
 {
-  private readonly EnpDbContext _context;
+  private readonly EnpDBContext _context;
 
-  public FaultEntriesApiController(EnpDbContext context)
+  public FaultEntriesApiController(EnpDBContext context)
   {
     _context = context;
   }
@@ -65,7 +65,36 @@ public class FaultEntriesApiController : BaeApiController<FaultEntryPostDto>
   [HttpPost]
   public async Task<ActionResult<FaultEntry>> PostFaultEntry(FaultEntryPostDto faultEntryPostDto)
   {
-    var faultEntry = _mapper.Map<FaultEntry>(faultEntryPostDto);
+        String? referenceId = null;
+        if (faultEntryPostDto.TenantId == "tarkwa")
+        {
+           
+
+            var faultsCount = _context.FaultEntries.Where(te => te.TenantId == "tarkwa").Count();
+            switch (faultsCount) {
+                case 1:
+                      referenceId="TD"+"00000"+faultsCount;
+                    break;
+                case 2:
+                    referenceId = "TD" + "000" + faultsCount;
+                    break;
+                case 3:
+                    referenceId = "TD" + "00" + faultsCount;
+                    break;
+                case 4:
+                    referenceId = "TD" + "0" + faultsCount;
+                    break;
+                default:
+                    referenceId = "TD" + faultsCount;
+                    break;
+
+
+            }
+
+
+        }
+        faultEntryPostDto.ReferenceId = referenceId;
+        var faultEntry = _mapper.Map<FaultEntry>(faultEntryPostDto);
     _context.FaultEntries.Add(faultEntry);
     try
     {

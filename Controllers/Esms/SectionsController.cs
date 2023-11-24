@@ -9,9 +9,9 @@ namespace ServiceManagerApi.Controllers.Esms
     [ApiController]
     public class SectionsController : BaeApiController<SectionsController>
     {
-        private readonly EnpDbContext _context;
+        private readonly EnpDBContext _context;
 
-        public SectionsController(EnpDbContext context)
+        public SectionsController(EnpDBContext context)
         {
             _context = context;
         }

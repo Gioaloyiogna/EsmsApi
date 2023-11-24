@@ -8,9 +8,9 @@ namespace ServiceManagerApi.Controllers.Esms;
 [ApiController]
 public class DownStatusesController : ControllerBase
 {
-  private readonly EnpDbContext _context;
+  private readonly EnpDBContext _context;
 
-  public DownStatusesController(EnpDbContext context)
+  public DownStatusesController(EnpDBContext context)
   {
     _context = context;
   }

@@ -11,9 +11,9 @@ namespace ServiceManagerApi.Controllers.Production
     [ApiController]
     public class ProFuelIssueController : BaeApiController<ProFuelIssueController>
     {
-        private readonly EnpDbContext _context;
+        private readonly EnpDBContext _context;
 
-        public ProFuelIssueController(EnpDbContext context)
+        public ProFuelIssueController(EnpDBContext context)
         {
             _context = context;
         }

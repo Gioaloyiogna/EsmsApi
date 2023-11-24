@@ -10,9 +10,9 @@ namespace ServiceManagerApi.Controllers.Esms;
 [ApiController]
 public class HoursEntryController : BaeApiController<HoursEntryController>
 {
-  private readonly EnpDbContext _context;
+  private readonly EnpDBContext _context;
 
-  public HoursEntryController(EnpDbContext context)
+  public HoursEntryController(EnpDBContext context)
   {
     _context = context;
   }
@@ -94,8 +94,6 @@ public class HoursEntryController : BaeApiController<HoursEntryController>
       else
         throw;
     }
-
-    return CreatedAtAction(nameof(GetById), new { id = hourEntry.Id }, hourEntry);
   }
 
   // updates hourEntry

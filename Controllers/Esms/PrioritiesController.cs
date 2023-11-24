@@ -13,9 +13,9 @@ namespace ServiceManagerApi.Controllers.Esms;
 [ApiController]
 public class PrioritiesController : ControllerBase
 {
-  private readonly EnpDbContext _context;
+  private readonly EnpDBContext _context;
 
-  public PrioritiesController(EnpDbContext context)
+  public PrioritiesController(EnpDBContext context)
   {
     _context = context;
   }

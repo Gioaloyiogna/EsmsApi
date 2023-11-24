@@ -43,21 +43,31 @@ public partial class Equipment
 
     public int Adjustment { get; set; }
 
+    public DateTime? SiteArrivalDate { get; set; }
+
+    public DateTime? ComissionDate { get; set; }
+
+    public string? EquipmentPicture { get; set; }
+
     public virtual ICollection<Agreement> Agreements { get; set; } = new List<Agreement>();
 
-    public virtual Category? CategoryNavigation { get; set; }
+    public virtual ICollection<Backlog> Backlogs { get; set; } = new List<Backlog>();
 
-    public virtual ICollection<Component> Components { get; set; } = new List<Component>();
+    public virtual Category? CategoryNavigation { get; set; }
 
     public virtual ICollection<DefectEntry> DefectEntries { get; set; } = new List<DefectEntry>();
 
     public virtual ICollection<DrillEntry> DrillEntries { get; set; } = new List<DrillEntry>();
+
+    public virtual ICollection<EquipmentComponentSchedule> EquipmentComponentSchedules { get; set; } = new List<EquipmentComponentSchedule>();
 
     public virtual ICollection<GroundEngTool> GroundEngTools { get; set; } = new List<GroundEngTool>();
 
     public virtual ICollection<HoursEntry> HoursEntries { get; set; } = new List<HoursEntry>();
 
     public virtual ICollection<HoursEntryTemp> HoursEntryTemps { get; set; } = new List<HoursEntryTemp>();
+
+    public virtual ICollection<LubeDispensing> LubeDispensings { get; set; } = new List<LubeDispensing>();
 
     public virtual ICollection<LubeEntry> LubeEntries { get; set; } = new List<LubeEntry>();
 

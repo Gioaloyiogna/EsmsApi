@@ -15,9 +15,9 @@ namespace ServiceManagerApi.Controllers.Production
     [ApiController]
     public class ProDailyOverviewController : BaeApiController<ProDailyOverviewController>
     {
-        private readonly EnpDbContext _context;
+        private readonly EnpDBContext _context;
 
-        public ProDailyOverviewController(EnpDbContext context)
+        public ProDailyOverviewController(EnpDBContext context)
         {
             _context = context;
         }

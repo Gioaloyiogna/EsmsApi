@@ -9,9 +9,9 @@ namespace ServiceManagerApi.Controllers.Esms
     [ApiController]
     public class GroundEngagingToolsController : BaeApiController<GroundEngagingToolsController>
     {
-        private readonly EnpDbContext _context;
+        private readonly EnpDBContext _context;
 
-        public GroundEngagingToolsController(EnpDbContext context)
+        public GroundEngagingToolsController(EnpDBContext context)
         {
             _context = context;
         }

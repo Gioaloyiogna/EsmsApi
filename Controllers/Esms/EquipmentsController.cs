@@ -1,3 +1,4 @@
+using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.JsonPatch;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
@@ -10,15 +11,17 @@ namespace ServiceManagerApi.Controllers.Esms;
 [ApiController]
 public class EquipmentsController : BaeApiController<EquipmentPostDto>
 {
-  private readonly EnpDbContext _context;
+  private readonly EnpDBContext _context;
+    private IWebHostEnvironment webHostEnvironment;
 
-  public EquipmentsController(EnpDbContext context)
-  {
-    _context = context;
-  }
+    public EquipmentsController(EnpDBContext context, IWebHostEnvironment webHostEnvironment)
+    {
+        _context = context;
+        this.webHostEnvironment = webHostEnvironment;
+    }
 
-  // GET: api/Equipments/tenant/{tenantId}  with paging 
-  [HttpGet("tenant/{tenantId}")]
+    // GET: api/Equipments/tenant/{tenantId}  with paging 
+    [HttpGet("tenant/{tenantId}")]
   public Task<List<Equipment>> GetEquipments(string tenantId,
       [FromQuery] int? pageNumber,
       [FromQuery] int? pageSize)
@@ -42,7 +45,7 @@ public class EquipmentsController : BaeApiController<EquipmentPostDto>
             WarrantyEndDate = e.WarrantyEndDate,
             UniversalCode = e.UniversalCode,
             MeterType = e.MeterType,
-            Components = e.Components,
+            
             InitialReading = e.InitialReading,
             Adjustment = e.Adjustment,
             HoursEntries = e.HoursEntries
@@ -51,7 +54,11 @@ public class EquipmentsController : BaeApiController<EquipmentPostDto>
                 .OrderByDescending(entry => entry.Date) // Order by the Date property in descending order
                 .Take(1) // Take the first (latest) entry
                 .ToList(),
-            Category = e.Category,
+            Category =  e.Category,
+
+            ComissionDate=e.ComissionDate,
+            SiteArrivalDate=e.SiteArrivalDate,
+            EquipmentPicture=e.EquipmentPicture,
             Model = e.Model != null
                 ? new Model
                 {
@@ -73,7 +80,8 @@ public class EquipmentsController : BaeApiController<EquipmentPostDto>
                         ModelClassId = e.Model.ModelClass.ModelClassId,
                         Name = e.Model.ModelClass.Name,
                         Code = e.Model.ModelClass.Code
-                    }
+                    },
+                    Components= _context.Components.Where(te=>te.ModelId== e.ModelId).ToList(),
                 }
                 : null
         });
@@ -98,11 +106,12 @@ public class EquipmentsController : BaeApiController<EquipmentPostDto>
 
     return Ok(equipment);
   }
+    
 
 
-  // PUT: api/Equipments/5
-  // To protect from overposting attacks, see https://go.microsoft.com/fwlink/?linkid=2123754
-  [HttpPut("{id}")]
+    // PUT: api/Equipments/5
+    // To protect from overposting attacks, see https://go.microsoft.com/fwlink/?linkid=2123754
+    [HttpPut("{id}")]
   public async Task<IActionResult> PutEquipment(int id, Equipment equipment)
   {
     if (id != equipment.Id) return BadRequest();
@@ -127,26 +136,74 @@ public class EquipmentsController : BaeApiController<EquipmentPostDto>
   //PATCH equipment: api/Equipments/5
   [HttpPatch("{id}")]
   public async Task<IActionResult> PatchEquipment(int id,
-      [FromBody] JsonPatchDocument<Equipment> patchEquipment)
+      [FromForm] EquipmentUpdateDto data)
   {
     var equipment = await _context.Equipment.FindAsync(id);
 
     if (equipment == null) return BadRequest();
+        if (data.ImageFile != null)
+        {
+            data.EquipmentPicture = await UploadImage(data.ImageFile);
+        }
+        else
+        {
+            data.EquipmentPicture = equipment.EquipmentPicture;
+        }
+        var equipmentMapper=_mapper.Map<Equipment>(data);
+        var patchEquipment = new JsonPatchDocument<Equipment>();
+        
+        patchEquipment.Replace(e => e.Category, equipmentMapper.Category);
+        patchEquipment.Replace(e=>e.SerialNumber, equipmentMapper.SerialNumber);
+        patchEquipment.Replace(e => e.Description, equipmentMapper.Description);
+        patchEquipment.Replace(e => e.ManufactureDate, equipmentMapper.ManufactureDate);
+        patchEquipment.Replace(e => e.ModelId, equipmentMapper.ModelId);
+        patchEquipment.Replace(e => e.PurchaseDate, equipmentMapper.PurchaseDate);
+        patchEquipment.Replace(e => e.EndOfLifeDate, equipmentMapper.EndOfLifeDate);
+        patchEquipment.Replace(e => e.Facode, equipmentMapper.Facode);
+        patchEquipment.Replace(e => e.SiteArrivalDate, equipmentMapper.SiteArrivalDate);
+        patchEquipment.Replace(e => e.EquipmentPicture, equipmentMapper.EquipmentPicture);
+        patchEquipment.ApplyTo(equipment, ModelState);
 
-    patchEquipment.ApplyTo(equipment, ModelState);
+        if (!ModelState.IsValid)
+        {
+            return BadRequest(ModelState); 
+        }
 
-    await _context.SaveChangesAsync();
+        try
+        {
+            
+            await _context.SaveChangesAsync();
 
-    return Ok(equipment);
-  }
+            return Ok(equipment);
+        }
+        catch (Exception ex)
+        {
+            
+            return BadRequest("An error occurred while updating equipment data: " + ex.Message);
+        }
+    }
 
+  [HttpPatch("updateGeneralInfo/{id}")]
+    public async Task<IActionResult> PatchEquipment(int id,
+      [FromBody] JsonPatchDocument<Equipment> patchEquipment)
+    {
+        var equipment = await _context.Equipment.FindAsync(id);
 
-  // POST: api/Equipments
-  // To protect from overposting attacks, see https://go.microsoft.com/fwlink/?linkid=2123754
-  [HttpPost]
-  public async Task<ActionResult<Equipment>> PostEquipment(EquipmentPostDto equipmentPostDto)
+        if (equipment == null) return BadRequest();
+
+        patchEquipment.ApplyTo(equipment, ModelState);
+
+        await _context.SaveChangesAsync();
+
+        return Ok(equipment);
+    }
+    // POST: api/Equipments
+    // To protect from overposting attacks, see https://go.microsoft.com/fwlink/?linkid=2123754
+    [HttpPost]
+  public async Task<ActionResult<Equipment>> PostEquipment([FromForm] EquipmentPostDto equipmentPostDto)
   {
-    var equipment = _mapper.Map<Equipment>(equipmentPostDto);
+        equipmentPostDto.EquipmentPicture  =await UploadImage(equipmentPostDto.ImageFile);
+        var equipment = _mapper.Map<Equipment>(equipmentPostDto);
 
     if (_context.Equipment == null) return Problem("Entity set 'EnpDBContext.Equipment'  is null.");
     _context.Equipment.Add(equipment);
@@ -154,9 +211,39 @@ public class EquipmentsController : BaeApiController<EquipmentPostDto>
 
     return CreatedAtAction("GetEquipment", new { id = equipment.Id }, equipment);
   }
+    
+    [NonAction]
+    public async Task<string> UploadImage(IFormFile? imageFile)
+    {
 
-  // DELETE: api/Equipments/5
-  [HttpDelete("{id}")]
+        var mes = "No file was selected";
+
+        if (imageFile != null)
+        {
+            try
+            {
+                string imageName = new string(Path.GetFileNameWithoutExtension(imageFile.FileName).Take(10).ToArray()).Replace(' ', '-');
+                imageName = imageName + DateTime.Now.ToString("yymmssfff") + Path.GetExtension(imageFile.FileName);
+                var imagePath = Path.Combine(webHostEnvironment.ContentRootPath, "Uploads/Equipment", imageName);
+
+                using (var fileStream = new FileStream(imagePath, FileMode.Create))
+                {
+                    await imageFile.CopyToAsync(fileStream);
+                }
+                return imageName;
+            }
+            catch (Exception e)
+            {
+
+                return e.ToString();
+            }
+        }
+        return mes;
+
+    }
+
+    // DELETE: api/Equipments/5
+    [HttpDelete("{id}")]
   public async Task<IActionResult> DeleteEquipment(int id)
   {
     if (_context.Equipment == null) return NotFound();
@@ -173,4 +260,6 @@ public class EquipmentsController : BaeApiController<EquipmentPostDto>
   {
     return (_context.Equipment?.Any(e => e.Id == id)).GetValueOrDefault();
   }
+   
+
 }

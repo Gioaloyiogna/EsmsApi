@@ -9,11 +9,11 @@ namespace ServiceManagerApi.Controllers.Esms;
 [ApiController]
 public class ManufacturersController : BaeApiController<ManufacturersController>
 {
-  private readonly EnpDbContext _context;
+  private readonly EnpDBContext _context;
   private readonly ILogger<ManufacturersController> _logger;
 
 
-  public ManufacturersController(EnpDbContext context, ILogger<ManufacturersController> logger)
+  public ManufacturersController(EnpDBContext context, ILogger<ManufacturersController> logger)
   {
     _context = context;
     _logger = logger;

@@ -8,9 +8,9 @@ namespace ServiceManagerApi.Controllers.Production
 {
     public class ProdProcessedMaterialController : BaeApiController<ProdProcessedMaterialController>
     {
-        private readonly EnpDbContext _context;
+        private readonly EnpDBContext _context;
 
-        public ProdProcessedMaterialController(EnpDbContext context)
+        public ProdProcessedMaterialController(EnpDBContext context)
         {
             _context = context;
         }

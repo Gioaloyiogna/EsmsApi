@@ -9,9 +9,9 @@ namespace ServiceManagerApi.Controllers.Esms
     [ApiController]
     public class HoursEntryTempController : BaeApiController<HoursEntryTempController>
     {
-        private readonly EnpDbContext _context;
+        private readonly EnpDBContext _context;
 
-        public HoursEntryTempController(EnpDbContext context)
+        public HoursEntryTempController(EnpDBContext context)
         {
             _context = context;
         }

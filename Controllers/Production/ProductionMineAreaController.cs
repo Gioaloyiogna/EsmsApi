@@ -13,9 +13,9 @@ namespace ServiceManagerApi.Controllers.Production
     [ApiController]
     public class ProductionMineAreaController : ControllerBase
     {
-        private readonly EnpDbContext _context;
+        private readonly EnpDBContext _context;
 
-        public ProductionMineAreaController(EnpDbContext context)
+        public ProductionMineAreaController(EnpDBContext context)
         {
             _context = context;
         }

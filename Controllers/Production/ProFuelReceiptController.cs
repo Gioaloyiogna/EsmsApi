@@ -9,9 +9,9 @@ namespace ServiceManagerApi.Controllers.Production
 
     public class ProFuelReceiptController : BaeApiController<ProFuelReceiptController>
     {
-        private readonly EnpDbContext _context;
+        private readonly EnpDBContext _context;
 
-        public ProFuelReceiptController(EnpDbContext context)
+        public ProFuelReceiptController(EnpDBContext context)
         {
             _context = context;
         }

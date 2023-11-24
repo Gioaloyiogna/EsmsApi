@@ -8,9 +8,9 @@ namespace ServiceManagerApi.Controllers.Esms
     [ApiController]
     public class HourliesApiController : ControllerBase
     {
-        private readonly EnpDbContext _context;
+        private readonly EnpDBContext _context;
 
-        public HourliesApiController(EnpDbContext context)
+        public HourliesApiController(EnpDBContext context)
         {
             _context = context;
         }

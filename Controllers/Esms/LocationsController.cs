@@ -13,9 +13,9 @@ namespace ServiceManagerApi.Controllers.Esms;
 [ApiController]
 public class LocationsController : ControllerBase
 {
-  private readonly EnpDbContext _context;
+  private readonly EnpDBContext _context;
 
-  public LocationsController(EnpDbContext context)
+  public LocationsController(EnpDBContext context)
   {
     _context = context;
   }

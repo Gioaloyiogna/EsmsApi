@@ -7,35 +7,19 @@ public partial class Component
 {
     public int Id { get; set; }
 
-    public string EquipmentId { get; set; } = null!;
+    public int ModelId { get; set; }
 
-    public string? Description { get; set; }
+    public string? Name { get; set; }
 
-    public string? SerialNumber { get; set; }
+    public int? ScheduledLifeHours { get; set; }
 
-    public int? Quantity { get; set; }
+    public int ComponentClass { get; set; }
 
     public string? TenantId { get; set; }
 
-    public DateTime? InstallDate { get; set; }
+    public virtual CompomentClass ComponentClassNavigation { get; set; } = null!;
 
-    public string? PartNumber { get; set; }
+    public virtual ICollection<EquipmentComponentSchedule> EquipmentComponentSchedules { get; set; } = new List<EquipmentComponentSchedule>();
 
-    public string? ReasonForChange { get; set; }
-
-    public DateTime? LastChangeDate { get; set; }
-
-    public int? ComponentHours { get; set; }
-
-    public string? NewSerialNumber { get; set; }
-
-    public decimal? ComponentPrice { get; set; }
-
-    public string? ComponentStatus { get; set; }
-
-    public DateTime? HoursRemoved { get; set; }
-
-    public int? HoursFitted { get; set; }
-
-    public virtual Equipment Equipment { get; set; } = null!;
+    public virtual Model Model { get; set; } = null!;
 }
