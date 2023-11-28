@@ -80,4 +80,6 @@ public partial class Equipment
     public virtual ICollection<ProhaulerUnit> ProhaulerUnits { get; set; } = new List<ProhaulerUnit>();
 
     public virtual ICollection<ProloaderUnit> ProloaderUnits { get; set; } = new List<ProloaderUnit>();
+
+    public virtual ICollection<Transfer> Transfers { get; set; } = new List<Transfer>();
 }

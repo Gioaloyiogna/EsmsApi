@@ -19,6 +19,8 @@ public partial class EnpDBContext : DbContext
 
     public virtual DbSet<Agreement> Agreements { get; set; }
 
+    public virtual DbSet<AssetDisposal> AssetDisposals { get; set; }
+
     public virtual DbSet<Backlog> Backlogs { get; set; }
 
     public virtual DbSet<BacklogStatus> BacklogStatuses { get; set; }
@@ -213,6 +215,8 @@ public partial class EnpDBContext : DbContext
 
     public virtual DbSet<TarkwaModelClass> TarkwaModelClasses { get; set; }
 
+    public virtual DbSet<Transfer> Transfers { get; set; }
+
     public virtual DbSet<ViewEquip> ViewEquips { get; set; }
 
     public virtual DbSet<Vmequp> Vmequps { get; set; }
@@ -264,6 +268,21 @@ public partial class EnpDBContext : DbContext
             entity.HasOne(d => d.Equipment).WithMany(p => p.Agreements)
                 .HasForeignKey(d => d.EquipmentId)
                 .HasConstraintName("Agreement_Equipment_id_fk");
+        });
+
+        modelBuilder.Entity<AssetDisposal>(entity =>
+        {
+            entity.ToTable("AssetDisposal");
+
+            entity.Property(e => e.Code)
+                .HasMaxLength(50)
+                .IsUnicode(false);
+            entity.Property(e => e.Name)
+                .HasMaxLength(50)
+                .IsUnicode(false);
+            entity.Property(e => e.TenantId)
+                .HasMaxLength(50)
+                .IsUnicode(false);
         });
 
         modelBuilder.Entity<Backlog>(entity =>
@@ -2732,6 +2751,60 @@ public partial class EnpDBContext : DbContext
             entity.Property(e => e.TenantId)
                 .HasMaxLength(50)
                 .IsUnicode(false);
+        });
+
+        modelBuilder.Entity<Transfer>(entity =>
+        {
+            entity.ToTable("Transfer");
+
+            entity.Property(e => e.Approvals)
+                .HasMaxLength(50)
+                .IsUnicode(false);
+            entity.Property(e => e.Comment).HasColumnType("text");
+            entity.Property(e => e.Date).HasColumnType("datetime");
+            entity.Property(e => e.Designation)
+                .HasMaxLength(50)
+                .IsUnicode(false);
+            entity.Property(e => e.DisposalReason)
+                .HasMaxLength(50)
+                .IsUnicode(false);
+            entity.Property(e => e.Disposer)
+                .HasMaxLength(50)
+                .IsUnicode(false);
+            entity.Property(e => e.EquipmentDescription)
+                .HasMaxLength(50)
+                .IsUnicode(false);
+            entity.Property(e => e.EquipmentId)
+                .HasMaxLength(50)
+                .IsUnicode(false);
+            entity.Property(e => e.ReferenceNo)
+                .HasMaxLength(50)
+                .IsUnicode(false);
+            entity.Property(e => e.SerialNo)
+                .HasMaxLength(50)
+                .IsUnicode(false);
+            entity.Property(e => e.Smu)
+                .HasMaxLength(50)
+                .IsUnicode(false);
+            entity.Property(e => e.TenantId)
+                .HasMaxLength(50)
+                .IsUnicode(false);
+
+            entity.HasOne(d => d.Condition).WithMany(p => p.Transfers)
+                .HasForeignKey(d => d.ConditionId)
+                .OnDelete(DeleteBehavior.ClientSetNull)
+                .HasConstraintName("FK_Transfer_ComponentCondition");
+
+            entity.HasOne(d => d.DisposalMethod).WithMany(p => p.Transfers)
+                .HasForeignKey(d => d.DisposalMethodId)
+                .OnDelete(DeleteBehavior.ClientSetNull)
+                .HasConstraintName("FK_Transfer_AssetDisposal");
+
+            entity.HasOne(d => d.Equipment).WithMany(p => p.Transfers)
+                .HasPrincipalKey(p => p.EquipmentId)
+                .HasForeignKey(d => d.EquipmentId)
+                .OnDelete(DeleteBehavior.ClientSetNull)
+                .HasConstraintName("FK_Transfer_Equipment");
         });
 
         modelBuilder.Entity<ViewEquip>(entity =>

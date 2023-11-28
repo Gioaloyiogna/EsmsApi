@@ -44,6 +44,7 @@ using ServiceManagerApi.Dtos.ScheduleTransactionsDto;
 using ServiceManagerApi.Dtos.Sections;
 using ServiceManagerApi.Dtos.Sequences;
 using ServiceManagerApi.Dtos.Services;
+using ServiceManagerApi.Dtos.Transfer;
 using ServiceManagerApi.Dtos.WorkOrderDto;
 
 namespace ServiceManagerApi.Helpers;
@@ -111,6 +112,7 @@ public class AutoMappingProfiles : Profile
         CreateMap<WorkOrder, WorkOrderGetDto>();
         CreateMap<ComponentDto, Component>();
         CreateMap<EquipmentComponentScheduleDto, EquipmentComponentSchedule>();
-       
+        CreateMap<TransferDto, Transfer>();
+
     }
 }

@@ -1,0 +1,45 @@
+﻿using System;
+using System.Collections.Generic;
+
+namespace ServiceManagerApi.Data;
+
+public partial class Transfer
+{
+    public int Id { get; set; }
+
+    public DateTime? Date { get; set; }
+
+    public string EquipmentId { get; set; } = null!;
+
+    public string EquipmentDescription { get; set; } = null!;
+
+    public string? ReferenceNo { get; set; }
+
+    public string SerialNo { get; set; } = null!;
+
+    public string? Smu { get; set; }
+
+    public int ConditionId { get; set; }
+
+    public string DisposalReason { get; set; } = null!;
+
+    public int DisposalMethodId { get; set; }
+
+    public int? AssetValue { get; set; }
+
+    public string Disposer { get; set; } = null!;
+
+    public string Designation { get; set; } = null!;
+
+    public string Approvals { get; set; } = null!;
+
+    public string? Comment { get; set; }
+
+    public string TenantId { get; set; } = null!;
+
+    public virtual ComponentCondition Condition { get; set; } = null!;
+
+    public virtual AssetDisposal DisposalMethod { get; set; } = null!;
+
+    public virtual Equipment Equipment { get; set; } = null!;
+}
