@@ -42,7 +42,7 @@ namespace ServiceManagerApi.Controllers.Esms
         }
         //fetching all sections by tenentId
         [HttpGet("section/tenant/{tenantId}")]
-        public async Task<ActionResult<Department>> getSectionByTenant(string tenantId)
+        public async Task<ActionResult<PucharseSection>> getSectionByTenant(string tenantId)
         {
             if (tenantId == null)
             {
@@ -50,7 +50,7 @@ namespace ServiceManagerApi.Controllers.Esms
             }
             try
             {
-                var allSections = await _context.Sections.Where((te => te.TenantId == tenantId)).ToListAsync();
+                var allSections = await _context.PucharseSections.Where((te => te.TenantId == tenantId)).ToListAsync();
                 if (allSections == null)
                 {
                     return StatusCode(500, "Error occurred while fetching records");
@@ -174,7 +174,7 @@ namespace ServiceManagerApi.Controllers.Esms
         }
         // posting Sections
         [HttpPost("section")]
-        public async Task<ActionResult<PucharseSection>> PostSection(Section section)
+        public async Task<ActionResult<PucharseSection>> PostSection(PucharseSection section)
         {
             if (section == null)
             {

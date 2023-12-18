@@ -45,7 +45,6 @@
         <_ContentIncludedByDefault Remove="Copy\ServiceManagerApi.runtimeconfig.json" />
     </ItemGroup>
     <ItemGroup>
-        <Content Include=".github\workflows\deploy.yml" />
         <Content Remove="3\**" />
         <Content Remove="Dtos\proDrillEntry\**" />
     </ItemGroup>
