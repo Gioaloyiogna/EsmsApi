@@ -17,6 +17,11 @@ namespace ServiceManagerApi.Controllers.Esms
             _context = context;
         }
 
+
+        //[HttpGet("glAccount/tenant/{tenantId}")]
+       
+
+
         //fetching all departments by tenentId
         [HttpGet("department/tenant/{tenantId}")]
         public async Task<ActionResult<Department>> getDepartmentByTenant(string tenantId)
@@ -328,6 +333,46 @@ namespace ServiceManagerApi.Controllers.Esms
                 return StatusCode(500, $"Error occurred while posting record: {ex.Message}");
             }
         }
+
+        [HttpPut("section/{id}")]
+        public async Task<ActionResult<Section>> PutSection(int id, Section updatedSection)
+        {
+            if (id != updatedSection.Id)
+            {
+                return BadRequest("Mismatched section ID in the request body and URL");
+            }
+
+            if (!_context.Sections.Any(s => s.Id == id))
+            {
+                return NotFound($"Section with ID {id} not found");
+            }
+
+            if (updatedSection == null)
+            {
+                return StatusCode(500, "Data to be updated is null");
+            }
+
+            try
+            {
+                _context.Entry(updatedSection).State = EntityState.Modified;
+                await _context.SaveChangesAsync(); // Use async version of SaveChanges
+                return NoContent(); // 204 No Content is returned for a successful update
+            }
+            catch (DbUpdateConcurrencyException ex)
+            {
+                return StatusCode(500, $"Concurrency error occurred: {ex.Message}");
+            }
+            catch (DbUpdateException ex)
+            {
+                return StatusCode(500, $"Database error occurred: {ex.Message}");
+            }
+            catch (Exception ex)
+            {
+                return StatusCode(500, $"Error occurred while updating record: {ex.Message}");
+            }
+        }
+
+
         //posting 
         [HttpPost("reference")]
         public async Task<ActionResult<Reference>> PostSection(Reference reference)
@@ -350,6 +395,44 @@ namespace ServiceManagerApi.Controllers.Esms
             catch (Exception ex)
             {
                 return StatusCode(500, $"Error occurred while posting record: {ex.Message}");
+            }
+        }
+
+        [HttpPut("reference/{id}")]
+        public async Task<ActionResult<Reference>> PutReference(int id, Reference updatedReference)
+        {
+            if (id != updatedReference.Id)
+            {
+                return BadRequest("Mismatched reference ID in the request body and URL");
+            }
+
+            if (!_context.References.Any(r => r.Id == id))
+            {
+                return NotFound($"Reference with ID {id} not found");
+            }
+
+            if (updatedReference == null)
+            {
+                return StatusCode(500, "Data to be updated is null");
+            }
+
+            try
+            {
+                _context.Entry(updatedReference).State = EntityState.Modified;
+                await _context.SaveChangesAsync(); // Use async version of SaveChanges
+                return NoContent(); // 204 No Content is returned for a successful update
+            }
+            catch (DbUpdateConcurrencyException ex)
+            {
+                return StatusCode(500, $"Concurrency error occurred: {ex.Message}");
+            }
+            catch (DbUpdateException ex)
+            {
+                return StatusCode(500, $"Database error occurred: {ex.Message}");
+            }
+            catch (Exception ex)
+            {
+                return StatusCode(500, $"Error occurred while updating record: {ex.Message}");
             }
         }
 
