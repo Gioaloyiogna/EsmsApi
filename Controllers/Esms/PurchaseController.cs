@@ -436,26 +436,6 @@ namespace ServiceManagerApi.Controllers.Esms
             }
         }
 
-        [HttpGet("glaccount/{id}")]
-        public ActionResult<GlAccount> GetGLAccountById(int id)
-        {
-            try
-            {
-                var glAccount = _context.GlAccounts.Find(id);
-
-                if (glAccount == null)
-                {
-                    return NotFound($"GLAccount with ID {id} not found");
-                }
-
-                return glAccount;
-            }
-            catch (Exception ex)
-            {
-                return StatusCode(500, $"Error occurred while retrieving record: {ex.Message}");
-            }
-        }
-
         [HttpDelete("glaccount/{id}")]
         public async Task<ActionResult<GlAccount>> DeleteGLAccountById(int id)
         {
@@ -476,6 +456,8 @@ namespace ServiceManagerApi.Controllers.Esms
             {
                 return StatusCode(500, $"Error occurred while deleting record: {ex.Message}");
             }
-
         }
+
+
+    }
 }
