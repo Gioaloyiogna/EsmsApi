@@ -94,6 +94,39 @@ namespace ServiceManagerApi.Controllers.Esms
                 return BadRequest();
             }
         }
+
+        [HttpDelete("section/tenant/{tenantId}")]
+        public async Task<ActionResult> DeleteSectionsByTenant(string tenantId)
+        {
+            try
+            {
+                if (tenantId == null)
+                {
+                    return StatusCode(500, "Tenant Id is null");
+                }
+
+                var sectionsToDelete = await _context.PucharseSections
+                    .Where(section => section.TenantId == tenantId)
+                    .ToListAsync();
+
+                if (sectionsToDelete == null || sectionsToDelete.Count == 0)
+                {
+                    return StatusCode(500, "No sections found for the given tenantId");
+                }
+
+                _context.PucharseSections.RemoveRange(sectionsToDelete);
+                await _context.SaveChangesAsync();
+
+                return Ok("Sections deleted successfully");
+            }
+            catch (Exception ex)
+            {
+                // Log the exception or handle it accordingly
+                return StatusCode(500, "Error occurred while deleting sections");
+            }
+        }
+
+
         //fetching all  by tenentId
         [HttpGet("reference/tenant/{tenantId}")]
         public async Task<ActionResult<Department>> getReferenceByTenant(string tenantId)
