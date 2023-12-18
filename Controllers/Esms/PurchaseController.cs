@@ -40,9 +40,40 @@ namespace ServiceManagerApi.Controllers.Esms
                return BadRequest();
             }
         }
+        [HttpDelete("department/tenant/{tenantId}")]
+        public async Task<ActionResult> DeleteDepartmentsByTenant(string tenantId)
+        {
+            try
+            {
+                if (tenantId == null)
+                {
+                    return StatusCode(500, "Tenant Id is null");
+                }
+
+                var departmentsToDelete = await _context.Departments
+                    .Where(department => department.TenanId == tenantId)
+                    .ToListAsync();
+
+                if (departmentsToDelete == null || departmentsToDelete.Count == 0)
+                {
+                    return StatusCode(500, "No departments found for the given tenantId");
+                }
+
+                _context.Departments.RemoveRange(departmentsToDelete);
+                await _context.SaveChangesAsync();
+
+                return Ok("Departments deleted successfully");
+            }
+            catch (Exception ex)
+            {
+                // Log the exception or handle it accordingly
+                return StatusCode(500, "Error occurred while deleting departments");
+            }
+        }
+
         //fetching all sections by tenentId
         [HttpGet("section/tenant/{tenantId}")]
-        public async Task<ActionResult<Department>> getSectionByTenant(string tenantId)
+        public async Task<ActionResult<PucharseSection>> getSectionByTenant(string tenantId)
         {
             if (tenantId == null)
             {
@@ -50,7 +81,7 @@ namespace ServiceManagerApi.Controllers.Esms
             }
             try
             {
-                var allSections = await _context.Sections.Where((te => te.TenantId == tenantId)).ToListAsync();
+                var allSections = await _context.PucharseSections.Where((te => te.TenantId == tenantId)).ToListAsync();
                 if (allSections == null)
                 {
                     return StatusCode(500, "Error occurred while fetching records");
