@@ -39,25 +39,23 @@ namespace ServiceManagerApi.Controllers.Esms
             {
                return BadRequest();
             }
-        }        
-        
-        [HttpDelete("department/tenant/{tenantId}")]
-        public async Task<ActionResult> DeleteDepartmentsByTenant(string tenantId)
+        }
+
+        [HttpDelete("department/tenant/{Id}")]
+        public async Task<ActionResult> DeleteDepartmentsByTenant(string Id)
         {
             try
             {
-                if (tenantId == null)
+                if (Id == null)
                 {
                     return StatusCode(500, "Tenant Id is null");
                 }
 
-                var departmentsToDelete = await _context.Departments
-                    .Where(department => department.TenanId == tenantId)
-                    .ToListAsync();
+                var departmentsToDelete = _context.Departments.Find(Id);
 
-                if (departmentsToDelete == null || departmentsToDelete.Count == 0)
+                if (departmentsToDelete == null)
                 {
-                    return StatusCode(500, "No departments found for the given tenantId");
+                    return StatusCode(500, "No departments found for the given Id");
                 }
 
                 _context.Departments.RemoveRange(departmentsToDelete);
@@ -97,21 +95,19 @@ namespace ServiceManagerApi.Controllers.Esms
             }
         }
 
-        [HttpDelete("section/tenant/{tenantId}")]
-        public async Task<ActionResult> DeleteSectionsByTenant(string tenantId)
+        [HttpDelete("section/tenant/{Id}")]
+        public async Task<ActionResult> DeleteSectionsByTenant(string Id)
         {
             try
             {
-                if (tenantId == null)
+                if (Id == null)
                 {
                     return StatusCode(500, "Tenant Id is null");
                 }
 
-                var sectionsToDelete = await _context.PucharseSections
-                    .Where(section => section.TenantId == tenantId)
-                    .ToListAsync();
+                var sectionsToDelete = _context.PucharseSections.Find(Id);
 
-                if (sectionsToDelete == null || sectionsToDelete.Count == 0)
+                if (sectionsToDelete == null)
                 {
                     return StatusCode(500, "No sections found for the given tenantId");
                 }
@@ -153,23 +149,21 @@ namespace ServiceManagerApi.Controllers.Esms
             }
         }
 
-        [HttpDelete("reference/tenant/{tenantId}")]
-        public async Task<ActionResult> DeleteReferencesByTenant(string tenantId)
+        [HttpDelete("reference/tenant/{Id}")]
+        public async Task<ActionResult> DeleteReferencesByTenant(string Id)
         {
             try
             {
-                if (tenantId == null)
+                if (Id == null)
                 {
-                    return StatusCode(500, "Tenant Id is null");
+                    return StatusCode(500, "Id is null");
                 }
 
-                var referencesToDelete = await _context.References
-                    .Where(reference => reference.TenantId == tenantId)
-                    .ToListAsync();
+                var referencesToDelete = _context.References.Find(Id);
 
-                if (referencesToDelete == null || referencesToDelete.Count == 0)
+                if (referencesToDelete == null)
                 {
-                    return StatusCode(500, "No references found for the given tenantId");
+                    return StatusCode(500, "No references found for the given Id");
                 }
 
                 _context.References.RemoveRange(referencesToDelete);
@@ -183,8 +177,6 @@ namespace ServiceManagerApi.Controllers.Esms
                 return StatusCode(500, "Error occurred while deleting references");
             }
         }
-
-
 
 
         //fetching all departments by Id
@@ -272,6 +264,46 @@ namespace ServiceManagerApi.Controllers.Esms
                 return StatusCode(500, $"Error occurred while posting record: {ex.Message}");
             }
         }
+
+        [HttpPut("department/{id}")]
+        public async Task<ActionResult<Department>> PutDepartment(int id, Department updatedDepartment)
+        {
+            if (id != updatedDepartment.Id)
+            {
+                return BadRequest("Mismatched department ID in the request body and URL");
+            }
+
+            if (!_context.Departments.Any(d => d.Id == id))
+            {
+                return NotFound($"Department with ID {id} not found");
+            }
+
+            if (updatedDepartment == null)
+            {
+                return StatusCode(500, "Data to be updated is null");
+            }
+
+            try
+            {
+                _context.Entry(updatedDepartment).State = EntityState.Modified;
+                await _context.SaveChangesAsync(); // Use async version of SaveChanges
+                return NoContent(); // 204 No Content is returned for a successful update
+            }
+            catch (DbUpdateConcurrencyException ex)
+            {
+                return StatusCode(500, $"Concurrency error occurred: {ex.Message}");
+            }
+            catch (DbUpdateException ex)
+            {
+                return StatusCode(500, $"Database error occurred: {ex.Message}");
+            }
+            catch (Exception ex)
+            {
+                return StatusCode(500, $"Error occurred while updating record: {ex.Message}");
+            }
+        }
+
+
         // posting Sections
         [HttpPost("section")]
         public async Task<ActionResult<PucharseSection>> PostSection(Section section)
