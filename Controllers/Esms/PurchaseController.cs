@@ -39,7 +39,8 @@ namespace ServiceManagerApi.Controllers.Esms
             {
                return BadRequest();
             }
-        }
+        }        
+        
         [HttpDelete("department/tenant/{tenantId}")]
         public async Task<ActionResult> DeleteDepartmentsByTenant(string tenantId)
         {
@@ -70,6 +71,7 @@ namespace ServiceManagerApi.Controllers.Esms
                 return StatusCode(500, "Error occurred while deleting departments");
             }
         }
+
 
         //fetching all sections by tenentId
         [HttpGet("section/tenant/{tenantId}")]
@@ -150,6 +152,40 @@ namespace ServiceManagerApi.Controllers.Esms
                 return BadRequest();
             }
         }
+
+        [HttpDelete("reference/tenant/{tenantId}")]
+        public async Task<ActionResult> DeleteReferencesByTenant(string tenantId)
+        {
+            try
+            {
+                if (tenantId == null)
+                {
+                    return StatusCode(500, "Tenant Id is null");
+                }
+
+                var referencesToDelete = await _context.References
+                    .Where(reference => reference.TenantId == tenantId)
+                    .ToListAsync();
+
+                if (referencesToDelete == null || referencesToDelete.Count == 0)
+                {
+                    return StatusCode(500, "No references found for the given tenantId");
+                }
+
+                _context.References.RemoveRange(referencesToDelete);
+                await _context.SaveChangesAsync();
+
+                return Ok("References deleted successfully");
+            }
+            catch (Exception ex)
+            {
+                // Log the exception or handle it accordingly
+                return StatusCode(500, "Error occurred while deleting references");
+            }
+        }
+
+
+
 
         //fetching all departments by Id
         [HttpGet("department/{Id}")]
