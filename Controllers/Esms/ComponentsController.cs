@@ -1,8 +1,10 @@
+using Microsoft.AspNetCore.JsonPatch;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using ServiceManagerApi.Data;
 using ServiceManagerApi.Dtos.Component;
 using ServiceManagerApi.Dtos.Equipments;
+using ServiceManagerApi.Dtos.Transfer;
 
 namespace ServiceManagerApi.Controllers.Esms;
 
@@ -68,6 +70,58 @@ public class ComponentsController : BaeApiController<ComponentDto>
         return components;
     }
 
+    [HttpGet("tracker/{id}")]
+    public async Task<ActionResult<Tracker>> GetTracker(int id)
+    {
+        if (_context.Trackers == null) return NotFound();
+        var tracker = await _context.Trackers.FindAsync(id);
+
+        if (tracker == null) return NotFound();
+
+        return tracker;
+    }
+    [HttpGet("tenant/tracker/{tenant}")]
+    public async Task<ActionResult<List<Tracker>>> GetTrackerByTenant(string tenant)
+    {
+        if (tenant == null)
+        {
+            return BadRequest("Tenant parameter is null.");
+        }
+        if (_context.Trackers == null) { return BadRequest(); };
+        var trackers = await _context.Trackers
+    .Where(te => te.TenantId == tenant)
+    .Select(e => new Tracker
+    {
+        Id = e.Id,
+        TenantId = e.TenantId
+        ,
+        Date=e.Date,
+        ComponentName = e.ComponentName,
+        ModelId = e.ModelId,
+        ComponentSerialNo = e.ComponentSerialNo,
+        Model = _context.Models
+    .Where(te => te.ModelId == e.ModelId)
+    .FirstOrDefault() ?? new Model { },
+        Condition=_context.ComponentConditions.Where(te=>te.Id==e.ConditionId).FirstOrDefault()?? new ComponentCondition { },
+        ConditionId = e.ConditionId,
+        Plan=_context.ComponentPlans.Where(te=>te.Id==e.PlanId).FirstOrDefault()?? new ComponentPlan { },
+        PlanId=e.PlanId,
+        Reference=e.Reference,
+        Details=e.Details,
+        Value=e.Value,
+        Location=_context.Locations.Where(te=>te.Id==e.LocationId).FirstOrDefault()?? new Location { },
+        LocationId=e.LocationId,
+        ComponentId=e.ComponentId,
+       
+
+    })
+    .ToListAsync();
+
+
+
+        return trackers;
+    }
+
     // PUT: api/Components/5
     // To protect from overposting attacks, see https://go.microsoft.com/fwlink/?linkid=2123754
     [HttpPut("{id}")]
@@ -104,24 +158,117 @@ public class ComponentsController : BaeApiController<ComponentDto>
 
     return CreatedAtAction("GetComponent", new { id = componentMapper.Id }, componentMapper);
   }
+    [HttpPost("tracker")]
+    public async Task<ActionResult<Transfer>> postTracker(TrackerDto tracker)
+    {
+        String? referenceId = null;
+        if (tracker != null)
+        {
 
-  // DELETE: api/Components/5
-  [HttpDelete("{id}")]
-  public async Task<IActionResult> DeleteComponent(int id)
-  {
+
+            var trackerCount = _context.Trackers.Where(te => te.TenantId == "tarkwa").Count();
+            var getCountString = trackerCount.ToString().Length;
+            switch (getCountString)
+            {
+                case 1:
+                    referenceId = "TA" + "00000" + trackerCount;
+                    break;
+                case 2:
+                    referenceId = "TH" + "000" + trackerCount;
+                    break;
+                case 3:
+                    referenceId = "TH" + "00" + trackerCount;
+                    break;
+                case 4:
+                    referenceId = "TH" + "0" + trackerCount;
+                    break;
+                default:
+                    referenceId = "TH" + trackerCount;
+                    break;
+
+
+            };
+            tracker.ComponentId = referenceId;
+           var mappedData=_mapper.Map<Tracker>(tracker);
+            _context.Trackers.Add(mappedData);
+            try
+            {
+                await _context.SaveChangesAsync();
+            }
+            catch (DbUpdateException)
+            {
+                if (TrackerExists(tracker.Id))
+                    return Conflict();
+                else
+                    throw;
+            }
+
+            return CreatedAtAction("GetTracker", new { id = tracker.Id }, tracker);
+
+        }
+        return Problem("Tracker data object is null");
+
+
+
+
+
+    }
+
+
+    // patch omponents
+    [HttpPatch("{id}")]
+    [ProducesResponseType(StatusCodes.Status204NoContent)]
+    [ProducesResponseType(StatusCodes.Status400BadRequest)]
+    public async Task<IActionResult> PatchComponent(int id, [FromBody] JsonPatchDocument<Component> component)
+    {
         
-    if (_context.Components == null) return NotFound();
-    var component = await _context.Components.FindAsync(id);
-    if (component == null) return NotFound();
+            try
+            {
+                var existingComponent = await _context.Components.FindAsync(id);
 
-    _context.Components.Remove(component);
-    await _context.SaveChangesAsync();
+                if ( existingComponent == null) return BadRequest();
 
-    return NoContent();
-  }
+                component.ApplyTo(existingComponent, ModelState);
 
-  private bool ComponentExists(int id)
+                await _context.SaveChangesAsync();
+        
+
+
+                return Ok();
+            }
+            catch (DbUpdateException ex)
+            {
+
+                
+                return StatusCode(StatusCodes.Status500InternalServerError, $"Error: {ex.Message}");
+
+            }
+            catch (Exception ex)
+            {
+                // Handle exceptions, log, or rollback the transaction if needed
+                
+                return StatusCode(StatusCodes.Status500InternalServerError, $"Error: {ex.Message}");
+            }
+        
+    }
+    [HttpDelete("{id}")]
+    [ProducesResponseType(StatusCodes.Status204NoContent)]
+    [ProducesResponseType(StatusCodes.Status400BadRequest)]
+    public async Task<IActionResult> Delete(int id)
+    {
+        var componentDelete = await _context.Components.FindAsync(id);
+        if (componentDelete == null) return NotFound();
+        _context.Components.Remove(componentDelete);
+        await _context.SaveChangesAsync();
+
+        return NoContent();
+    }
+    private bool ComponentExists(int id)
   {
     return (_context.Components?.Any(e => e.Id == id)).GetValueOrDefault();
   }
+    private bool TrackerExists(int id)
+    {
+        return (_context.Trackers?.Any(e => e.Id == id)).GetValueOrDefault();
+    }
 }

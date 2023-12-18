@@ -3,7 +3,7 @@
     public class EquipmentComponentScheduleDto
     {
         
-
+         
         public string EquipmentId { get; set; } = null!;
 
         public string Description { get; set; } = null!;

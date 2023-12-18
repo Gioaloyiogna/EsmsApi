@@ -37,8 +37,8 @@ public record FaultEntryPostDto
   public string? ReferenceId { get; set; }
 
   public string? FaultDetails { get; set; }
-
-  public DateTime? ReportedDate { get; set; }
+    public string? IsDisplayed { get; set; }
+    public DateTime? ReportedDate { get; set; }
     public DateTime? ExpectedUpTime { get; set; }
 
     public int? CategoryId { get; set; }

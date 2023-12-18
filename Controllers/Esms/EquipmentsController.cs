@@ -55,7 +55,7 @@ public class EquipmentsController : BaeApiController<EquipmentPostDto>
                 .Take(1) // Take the first (latest) entry
                 .ToList(),
             Category =  e.Category,
-
+            CategoryNavigation= _context.Categories.Where(te => te.Id == e.Category).FirstOrDefault(),
             ComissionDate=e.ComissionDate,
             SiteArrivalDate=e.SiteArrivalDate,
             EquipmentPicture=e.EquipmentPicture,
@@ -93,10 +93,84 @@ public class EquipmentsController : BaeApiController<EquipmentPostDto>
 
     return equipments.ToListAsync();
   }
+    // GET: api/Equipments/tenant/{tenantId}  with paging 
+    [HttpGet("allEquipment/{tenantId}")]
+    public Task<List<Equipment>> GetAllEquipments(string tenantId,
+      [FromQuery] int? pageNumber,
+      [FromQuery] int? pageSize)
+    {
+        var equipments = _context.Equipment
+            .Where(equipment => equipment.TenantId == tenantId)
+            .Include(e => e.Model)
+            .Select(e => new Equipment
+            {
+                Id = e.Id,
+                ModelId = e.ModelId,
+                EquipmentId = e.EquipmentId,
+                Description = e.Description,
+                SerialNumber = e.SerialNumber,
+                ManufactureDate = e.ManufactureDate,
+                PurchaseDate = e.PurchaseDate,
+                EndOfLifeDate = e.EndOfLifeDate,
+                Facode = e.Facode,
+                Note = e.Note,
+                WarrantyStartDate = e.WarrantyStartDate,
+                WarrantyEndDate = e.WarrantyEndDate,
+                UniversalCode = e.UniversalCode,
+                MeterType = e.MeterType,
+                Status=e.Status,
+                InitialReading = e.InitialReading,
+                Adjustment = e.Adjustment,
+                HoursEntries = e.HoursEntries
+                    .Where(entry => entry.TenantId == tenantId && entry.FleetId == e.EquipmentId &&
+                                    entry.EntrySource == "Normal Reading")
+                    .OrderByDescending(entry => entry.Date) // Order by the Date property in descending order
+                    .Take(1) // Take the first (latest) entry
+                    .ToList(),
+                Category = e.Category,
+                CategoryNavigation = _context.Categories.Where(te => te.Id == e.Category).FirstOrDefault(),
+                ComissionDate = e.ComissionDate,
+                SiteArrivalDate = e.SiteArrivalDate,
+                EquipmentPicture = e.EquipmentPicture,
+                Model = e.Model != null
+                    ? new Model
+                    {
+                        ModelId = e.Model.ModelId,
+                        ManufacturerId = e.Model.ManufacturerId,
+                        ModelClassId = e.Model.ModelClassId,
+                        Name = e.Model.Name,
+                        Code = e.Model.Code,
+                        LubeConfigs = e.Model.LubeConfigs,
+                        PictureLink = e.Model.PictureLink,
+                        Services = e.Model.Services,
+                        Manufacturer = new Manufacturer
+                        {
+                            ManufacturerId = e.Model.Manufacturer.ManufacturerId,
+                            Name = e.Model.Manufacturer.Name
+                        },
+                        ModelClass = new ModelClass
+                        {
+                            ModelClassId = e.Model.ModelClass.ModelClassId,
+                            Name = e.Model.ModelClass.Name,
+                            Code = e.Model.ModelClass.Code
+                        },
+                        Components = _context.Components.Where(te => te.ModelId == e.ModelId).ToList(),
+                    }
+                    : null
+            });
+
+        if (pageNumber.HasValue && pageSize.HasValue)
+            equipments = equipments
+                .Skip((pageNumber.Value - 1) * pageSize.Value)
+                .Take(pageSize.Value);
+
+        return equipments.ToListAsync();
+    }
 
 
-  // GET: api/Equipments/5
-  [HttpGet("{id}")]
+
+    // GET: api/Equipments/5
+    [HttpGet("{id}")]
   public async Task<ActionResult<Equipment>> GetEquipment(int id)
   {
     if (_context.Equipment == null) return NotFound();

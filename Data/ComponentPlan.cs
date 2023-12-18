@@ -12,4 +12,6 @@ public partial class ComponentPlan
     public string Name { get; set; } = null!;
 
     public string? TenantId { get; set; }
+
+    public virtual ICollection<Tracker> Trackers { get; set; } = new List<Tracker>();
 }

@@ -1,4 +1,5 @@
-﻿using Microsoft.AspNetCore.Mvc;
+﻿using Microsoft.AspNetCore.JsonPatch;
+using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using ServiceManagerApi.Data;
 using ServiceManagerApi.Dtos.Component;
@@ -25,9 +26,10 @@ namespace ServiceManagerApi.Controllers.Esms
                    .Where(component => component.TenantId == tenantId)
                 .Select(e => new EquipmentComponentSchedule
                 {
+                     Id=e.Id,
                     TenantId=e.TenantId,
                     ModelId=e.ModelId,
-                    ComponentId=e.ModelId,
+                    ComponentId=e.ComponentId,
                     EquipmentId=e.EquipmentId,
                     Description=e.Description,
                     ExpectedLife=e.ExpectedLife,
@@ -63,6 +65,34 @@ namespace ServiceManagerApi.Controllers.Esms
 
             return CreatedAtAction("GetEquipmentComponent", new { id = equipment.Id }, equipment);
         }
+        [HttpPatch("{id}")]
+        [ProducesResponseType(StatusCodes.Status204NoContent)]
+        [ProducesResponseType(StatusCodes.Status400BadRequest)]
+        public async Task<IActionResult> PatchEquipmentComponent(int id, [FromBody] JsonPatchDocument<EquipmentComponentSchedule> patchComponent)
+        {
+            var component= await _context.EquipmentComponentSchedules.FindAsync(id);
+
+            if (component== null) return BadRequest();
+
+            patchComponent.ApplyTo(component, ModelState);
+
+            await _context.SaveChangesAsync();
+
+            return Ok(component);
+        }
+        [HttpDelete("{id}")]
+        [ProducesResponseType(StatusCodes.Status204NoContent)]
+        [ProducesResponseType(StatusCodes.Status400BadRequest)]
+        public async Task<IActionResult> Delete(int id)
+        {
+            var componentDelete = await _context.EquipmentComponentSchedules.FindAsync(id);
+            if (componentDelete == null) return NotFound();
+            _context.EquipmentComponentSchedules.Remove(componentDelete);
+            await _context.SaveChangesAsync();
+
+            return NoContent();
+        }
+
     }
 }
 

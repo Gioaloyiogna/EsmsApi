@@ -71,7 +71,8 @@ public class FaultEntriesApiController : BaeApiController<FaultEntryPostDto>
            
 
             var faultsCount = _context.FaultEntries.Where(te => te.TenantId == "tarkwa").Count();
-            switch (faultsCount) {
+            var getCountString = faultsCount.ToString().Length;
+            switch (getCountString) {
                 case 1:
                       referenceId="TD"+"00000"+faultsCount;
                     break;
@@ -127,9 +128,25 @@ public class FaultEntriesApiController : BaeApiController<FaultEntryPostDto>
 
     return Ok(fualts);
   }
+    // change fault status
+    [HttpPatch("/patchfaultstatus/{id}")]
+    [ProducesResponseType(StatusCodes.Status204NoContent)]
+    [ProducesResponseType(StatusCodes.Status400BadRequest)]
+    public async Task<IActionResult> PatchFault(Guid id, [FromBody] JsonPatchDocument<FaultEntry> patchFaultEntry)
+    {
+        var fualts = await _context.FaultEntries.FindAsync(id);
 
-  // DELETE: api/FaultEntriesApi/5
-  [HttpDelete("{id}")]
+        if (fualts == null) return BadRequest();
+
+        patchFaultEntry.ApplyTo(fualts, ModelState);
+
+        await _context.SaveChangesAsync();
+
+        return Ok(fualts);
+    }
+
+    // DELETE: api/FaultEntriesApi/5
+    [HttpDelete("{id}")]
   public async Task<IActionResult> DeleteFaultEntry(Guid id)
   {
     var faultEntry = await _context.FaultEntries.FindAsync(id);

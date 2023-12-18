@@ -12,4 +12,6 @@ public partial class Location
     public int Id { get; set; }
 
     public string? Description { get; set; }
+
+    public virtual ICollection<Tracker> Trackers { get; set; } = new List<Tracker>();
 }

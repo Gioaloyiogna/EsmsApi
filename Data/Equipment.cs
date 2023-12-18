@@ -73,6 +73,10 @@ public partial class Equipment
 
     public virtual Model? Model { get; set; }
 
+    public virtual ICollection<PartsRobbing> PartsRobbingEquipments { get; set; } = new List<PartsRobbing>();
+
+    public virtual ICollection<PartsRobbing> PartsRobbingRobbedEquipments { get; set; } = new List<PartsRobbing>();
+
     public virtual ICollection<ProDrill> ProDrills { get; set; } = new List<ProDrill>();
 
     public virtual ICollection<ProFuelIntake> ProFuelIntakes { get; set; } = new List<ProFuelIntake>();

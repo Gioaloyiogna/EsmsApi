@@ -32,4 +32,6 @@ public partial class Model
     public virtual ModelClass? ModelClass { get; set; }
 
     public virtual ICollection<Service> Services { get; set; } = new List<Service>();
+
+    public virtual ICollection<Tracker> Trackers { get; set; } = new List<Tracker>();
 }

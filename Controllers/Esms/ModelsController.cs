@@ -34,13 +34,7 @@ public class ModelsController : BaeApiController<ModelsController>
             Code = m.Code,
             PictureLink = m.PictureLink,
             LubeConfigs = m.LubeConfigs,
-            Manufacturer = m.Manufacturer != null
-                ? new Manufacturer()
-                {
-                    ManufacturerId = m.Manufacturer.ManufacturerId,
-                    Name = m.Manufacturer.Name
-                }
-                : null,
+            Manufacturer = _context.Manufacturers.Where(te=>te.ManufacturerId==m.ManufacturerId).FirstOrDefault(),
             ModelClass = m.ModelClass != null
                 ? new ModelClass()
                 {

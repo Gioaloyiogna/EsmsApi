@@ -23,6 +23,7 @@ using ServiceManagerApi.Dtos.LubeEntry;
 using ServiceManagerApi.Dtos.LubeGrades;
 using ServiceManagerApi.Dtos.Manufacturers;
 using ServiceManagerApi.Dtos.Model;
+using ServiceManagerApi.Dtos.PartsRobbingDto;
 using ServiceManagerApi.Dtos.PlannedOutput;
 using ServiceManagerApi.Dtos.ProDailyOverview;
 using ServiceManagerApi.Dtos.ProdProcessedMaterial;
@@ -113,6 +114,8 @@ public class AutoMappingProfiles : Profile
         CreateMap<ComponentDto, Component>();
         CreateMap<EquipmentComponentScheduleDto, EquipmentComponentSchedule>();
         CreateMap<TransferDto, Transfer>();
+        CreateMap<PartsRobbingDto,PartsRobbing>();
+        CreateMap<TrackerDto, Tracker>();
 
     }
 }

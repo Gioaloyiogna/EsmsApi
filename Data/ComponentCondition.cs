@@ -13,5 +13,7 @@ public partial class ComponentCondition
 
     public string TenantId { get; set; } = null!;
 
+    public virtual ICollection<Tracker> Trackers { get; set; } = new List<Tracker>();
+
     public virtual ICollection<Transfer> Transfers { get; set; } = new List<Transfer>();
 }

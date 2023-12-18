@@ -37,6 +37,18 @@ public partial class Transfer
 
     public string TenantId { get; set; } = null!;
 
+    public string? ActionTaken { get; set; }
+
+    public DateTime? CompletionDate { get; set; }
+
+    public string? Personnel { get; set; }
+
+    public string? WayBill { get; set; }
+
+    public string? AdditionalComment { get; set; }
+
+    public int? Status { get; set; }
+
     public virtual ComponentCondition Condition { get; set; } = null!;
 
     public virtual AssetDisposal DisposalMethod { get; set; } = null!;

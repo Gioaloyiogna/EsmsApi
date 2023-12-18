@@ -51,5 +51,11 @@ public partial class FaultEntry
 
     public int? Duration { get; set; }
 
-    public virtual Category? Category { get; set; }
+    public string? IsDisplayed { get; set; }
+
+    public int? TotalCost { get; set; }
+
+    public string? WorkDone { get; set; }
+
+    public string? CostRef { get; set; }
 }

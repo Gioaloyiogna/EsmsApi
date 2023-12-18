@@ -30,6 +30,17 @@
 
         public string Approvals { get; set; } = null!;
 
+        public string? ActionTaken { get; set; }
+
+        public DateTime? CompletionDate { get; set; }
+
+        public string? Personnel { get; set; }
+
+        public string? WayBill { get; set; }
+
+        public string? AdditionalComment { get; set; }
+
+        public int? Status { get; set; }
         public string? Comment { get; set; }
         public string TenantId { get; set; } = null!;
 
