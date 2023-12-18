@@ -456,7 +456,26 @@ namespace ServiceManagerApi.Controllers.Esms
             }
         }
 
+        [HttpDelete("glaccount/{id}")]
+        public async Task<ActionResult<GlAccount>> DeleteGLAccountById(int id)
+        {
+            var glAccount = await _context.GlAccounts.FindAsync(id);
 
+            if (glAccount == null)
+            {
+                return NotFound($"GLAccount with ID {id} not found");
+            }
 
-    }
+            try
+            {
+                _context.GlAccounts.Remove(glAccount);
+                await _context.SaveChangesAsync(); // Use async version of SaveChanges
+                return glAccount;
+            }
+            catch (Exception ex)
+            {
+                return StatusCode(500, $"Error occurred while deleting record: {ex.Message}");
+            }
+
+        }
 }
