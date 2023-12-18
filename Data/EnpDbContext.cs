@@ -105,6 +105,8 @@ public partial class EnpDBContext : DbContext
 
     public virtual DbSet<FleetSchedule> FleetSchedules { get; set; }
 
+    public virtual DbSet<GlAccount> GlAccounts { get; set; }
+
     public virtual DbSet<GroundEngTool> GroundEngTools { get; set; }
 
     public virtual DbSet<Group> Groups { get; set; }
@@ -1695,6 +1697,21 @@ public partial class EnpDBContext : DbContext
             entity.HasOne(d => d.ServiceType).WithMany(p => p.FleetSchedules)
                 .HasForeignKey(d => d.ServiceTypeId)
                 .HasConstraintName("FK_FleetSchedule_Services");
+        });
+
+        modelBuilder.Entity<GlAccount>(entity =>
+        {
+            entity.ToTable("GlAccount");
+
+            entity.Property(e => e.Code)
+                .HasMaxLength(50)
+                .IsUnicode(false);
+            entity.Property(e => e.Name)
+                .HasMaxLength(50)
+                .IsUnicode(false);
+            entity.Property(e => e.TenantId)
+                .HasMaxLength(50)
+                .IsUnicode(false);
         });
 
         modelBuilder.Entity<GroundEngTool>(entity =>
