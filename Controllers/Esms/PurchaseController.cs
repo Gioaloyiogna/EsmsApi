@@ -457,6 +457,35 @@ namespace ServiceManagerApi.Controllers.Esms
             }
         }
 
+        [HttpGet("glaccount/tenant/{tenantId}")]
+        public async Task<ActionResult<IEnumerable<GlAccount>>> GetGLAccountsByTenant(string tenantId)
+        {
+            if (tenantId == null)
+            {
+                return StatusCode(500, "Tenant Id is null");
+            }
+
+            try
+            {
+                var glAccounts = await _context.GlAccounts
+                    .Where(gl => gl.TenantId == tenantId)
+                    .ToListAsync();
+
+                if (glAccounts == null)
+                {
+                    return StatusCode(500, "Error occurred while fetching records");
+                }
+
+                return Ok(glAccounts);
+            }
+            catch (Exception ex)
+            {
+                // Log the exception or handle it as needed
+                return StatusCode(500, $"An error occurred while processing the request: {ex.Message}");
+            }
+        }
+
+
 
         [HttpDelete("glaccount/{id}")]
         public async Task<ActionResult<GlAccount>> DeleteGLAccountById(int id)
