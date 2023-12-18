@@ -63,12 +63,6 @@
         <None Remove="3\**" />
         <None Remove="Dtos\proDrillEntry\**" />
     </ItemGroup>
-    <ItemGroup>
-      <None Remove="scafold.sh" />
-    </ItemGroup>
-    <ItemGroup>
-      <Compile Include="scafold.sh" />
-    </ItemGroup>
 
     <!--  <ProjectExtensions><VisualStudio><UserProperties appsettings_1development_1json__JsonSchema="https://geojson.org/schema/GeoJSON.json" /></VisualStudio></ProjectExtensions>-->
     <!--=======-->
