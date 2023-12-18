@@ -505,6 +505,43 @@ namespace ServiceManagerApi.Controllers.Esms
             }
         }
 
+        [HttpPut("glaccount/{id}")]
+        public async Task<ActionResult<GlAccount>> PutGLAccount(int id, GlAccount updatedGLAccount)
+        {
+            if (id != updatedGLAccount.Id)
+            {
+                return BadRequest("Mismatched GLAccount ID in the request body and URL");
+            }
+
+            if (!_context.GlAccounts.Any(g => g.Id == id))
+            {
+                return NotFound($"GLAccount with ID {id} not found");
+            }
+
+            if (updatedGLAccount == null)
+            {
+                return StatusCode(500, "Data to be updated is null");
+            }
+
+            try
+            {
+                _context.Entry(updatedGLAccount).State = EntityState.Modified;
+                await _context.SaveChangesAsync(); // Use async version of SaveChanges
+                return NoContent(); // 204 No Content is returned for a successful update
+            }
+            catch (DbUpdateConcurrencyException ex)
+            {
+                return StatusCode(500, $"Concurrency error occurred: {ex.Message}");
+            }
+            catch (DbUpdateException ex)
+            {
+                return StatusCode(500, $"Database error occurred: {ex.Message}");
+            }
+            catch (Exception ex)
+            {
+                return StatusCode(500, $"Error occurred while updating record: {ex.Message}");
+            }
+        }
 
     }
 }
