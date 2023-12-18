@@ -436,6 +436,28 @@ namespace ServiceManagerApi.Controllers.Esms
             }
         }
 
+        [HttpGet("glaccount/{id}")]
+        public ActionResult<GlAccount> GetGLAccountById(int id)
+        {
+            try
+            {
+                var glAccount = _context.GlAccounts.Find(id);
+
+                if (glAccount == null)
+                {
+                    return NotFound($"GLAccount with ID {id} not found");
+                }
+
+                return glAccount;
+            }
+            catch (Exception ex)
+            {
+                // Log the exception or handle it as needed
+                return StatusCode(500, $"An error occurred while processing the request: {ex.Message}");
+            }
+        }
+
+
         [HttpDelete("glaccount/{id}")]
         public async Task<ActionResult<GlAccount>> DeleteGLAccountById(int id)
         {
@@ -455,6 +477,31 @@ namespace ServiceManagerApi.Controllers.Esms
             catch (Exception ex)
             {
                 return StatusCode(500, $"Error occurred while deleting record: {ex.Message}");
+            }
+        }
+
+
+        [HttpPost("glaccount")]
+        public async Task<ActionResult<GlAccount>> PostGLAccount(GlAccount glAccount)
+        {
+            if (glAccount == null)
+            {
+                return StatusCode(500, "Data to be posted is null");
+            }
+
+            try
+            {
+                _context.Add(glAccount);
+                await _context.SaveChangesAsync(); // Use async version of SaveChanges
+                return CreatedAtAction("GetGLAccountById", new { id = glAccount.Id }, glAccount);
+            }
+            catch (DbUpdateException ex)
+            {
+                return StatusCode(500, $"Database error occurred: {ex.Message}");
+            }
+            catch (Exception ex)
+            {
+                return StatusCode(500, $"Error occurred while posting record: {ex.Message}");
             }
         }
 
