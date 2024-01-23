@@ -132,7 +132,7 @@ namespace ServiceManagerApi.Controllers.Esms
 
         //fetching all  by tenentId
         [HttpGet("reference/tenant/{tenantId}")]
-        public async Task<ActionResult<Department>> getReferenceByTenant(string tenantId)
+        public async Task<ActionResult<Reference>> getReferenceByTenant(string tenantId)
         {
             if (tenantId == null)
             {

@@ -85,5 +85,7 @@ public partial class Equipment
 
     public virtual ICollection<ProloaderUnit> ProloaderUnits { get; set; } = new List<ProloaderUnit>();
 
+    public virtual ICollection<PurchaseRequest> PurchaseRequests { get; set; } = new List<PurchaseRequest>();
+
     public virtual ICollection<Transfer> Transfers { get; set; } = new List<Transfer>();
 }

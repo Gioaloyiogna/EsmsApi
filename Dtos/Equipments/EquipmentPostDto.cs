@@ -22,8 +22,8 @@ public record EquipmentPostDto
   public string? Facode { get; set; }
 
   public string? Note { get; set; }
-
-  public DateTime? WarrantyStartDate { get; set; }
+   public string Status { get; set; } = null!;
+    public DateTime? WarrantyStartDate { get; set; }
   public DateTime? ComissionDate { get; set; }
   public DateTime? WarrantyEndDate { get; set; }
   public string? EquipmentPicture { get; set; }

@@ -13,7 +13,7 @@ public partial class Model
 
     public string? Name { get; set; }
 
-    public string Code { get; set; } = null!;
+    public string? Code { get; set; }
 
     public string? PictureLink { get; set; }
 
@@ -30,8 +30,6 @@ public partial class Model
     public virtual Manufacturer? Manufacturer { get; set; }
 
     public virtual ModelClass? ModelClass { get; set; }
-
-    public virtual ICollection<Service> Services { get; set; } = new List<Service>();
 
     public virtual ICollection<Tracker> Trackers { get; set; } = new List<Tracker>();
 }

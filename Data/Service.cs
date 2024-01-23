@@ -17,7 +17,5 @@ public partial class Service
 
     public virtual ICollection<FleetSchedule> FleetSchedules { get; set; } = new List<FleetSchedule>();
 
-    public virtual Model? ModelNavigation { get; set; }
-
     public virtual ICollection<Section> Sections { get; set; } = new List<Section>();
 }

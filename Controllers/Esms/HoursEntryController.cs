@@ -35,9 +35,46 @@ public class HoursEntryController : BaeApiController<HoursEntryController>
         .ToListAsync();
     return hoursEntries;
   }
+    [HttpGet("HoursEntryByTenantId/{tenantId}")]
+    //[ProducesResponseType(typeof(HoursEntry), StatusCodes.Status200OK)]
+    //[ProducesResponseType(StatusCodes.Status404NotFound)]
+    public Task<List<HoursEntry>> GetAllHours(string tenantId)
+    {
+        DateTime sixMonthsAgo = DateTime.UtcNow.AddMonths(-6);
 
-  // get by equipmentId
-  [HttpGet("{equipmentId}/tenant/{tenantId}/{readingSource}")]
+        var hoursEntries = _context.HoursEntries
+            .Where(leav =>
+                leav.TenantId == tenantId &&
+                leav.EntrySource == "Normal Reading" &&
+                leav.Date >= sixMonthsAgo 
+            )
+            .ToListAsync();
+
+        return hoursEntries;
+    }
+
+    //pulling all hoursEntries
+
+    [HttpGet("IndividualHoursEntry/{tenantId}/{fleetId}")]
+    [ProducesResponseType(typeof(List<HoursEntry>), StatusCodes.Status200OK)]
+    [ProducesResponseType(StatusCodes.Status404NotFound)]
+    public async Task<ActionResult<List<HoursEntry>>> GetAllHoursEntries(string tenantId, string fleetId)
+    {
+        var hoursEntries = await _context.HoursEntries
+            .Where(leav => leav.TenantId == tenantId && leav.EntrySource == "Normal Reading" && leav.FleetId == fleetId)
+            .ToListAsync();
+
+        if (hoursEntries == null || hoursEntries.Count == 0)
+        {
+            return NotFound(); // Return a 404 response if no entries are found
+        }
+
+        return Ok(hoursEntries); // Return a 200 OK response with the list of entries
+    }
+
+
+    // get by equipmentId
+    [HttpGet("{equipmentId}/tenant/{tenantId}/{readingSource}")]
   [ProducesResponseType(typeof(HoursEntry), StatusCodes.Status200OK)]
   [ProducesResponseType(StatusCodes.Status404NotFound)]
   public async Task<IActionResult> GetById(string equipmentId, string tenantId, string readingSource)

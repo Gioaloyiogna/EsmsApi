@@ -69,12 +69,12 @@ public class CompartmentController : BaeApiController<CompartmentController>
   [HttpPut("{id}")]
   [ProducesResponseType(StatusCodes.Status204NoContent)]
   [ProducesResponseType(StatusCodes.Status400BadRequest)]
-  public async Task<IActionResult> Put(int id, Compartment compartment)
+  public async Task<IActionResult> Put(int id, CompartmentPostDto compartment)
   {
     if (id != compartment.Id) return BadRequest();
+        var compartmentData = _mapper.Map<Compartment>(compartment);
 
-
-    _context.Entry(compartment).State = EntityState.Modified;
+        _context.Entry(compartmentData).State = EntityState.Modified;
 
     try
     {

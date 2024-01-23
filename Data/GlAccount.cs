@@ -12,4 +12,6 @@ public partial class GlAccount
     public string? Code { get; set; }
 
     public string? TenantId { get; set; }
+
+    public virtual ICollection<PurchaseRequest> PurchaseRequests { get; set; } = new List<PurchaseRequest>();
 }

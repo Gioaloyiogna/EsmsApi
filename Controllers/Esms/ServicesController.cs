@@ -24,8 +24,8 @@ public class ServicesController : BaeApiController<ServicesController>
     var services = _context
         .Services
         .Where(serv => serv.TenantId == tenantId)
-        .Include(equip => equip.ModelNavigation)
-        .ThenInclude(model => model.Equipment)
+        //.Include(equip => equip.ModelNavigation)
+        //.ThenInclude(model => model.Equipment)
         .Include(ser => ser.Sections)
         .ThenInclude(sec => sec.Groups)
         .ThenInclude(grop => grop.Items)

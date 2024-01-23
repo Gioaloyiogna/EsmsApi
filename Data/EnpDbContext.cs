@@ -207,6 +207,8 @@ public partial class EnpDBContext : DbContext
 
     public virtual DbSet<PucharseSection> PucharseSections { get; set; }
 
+    public virtual DbSet<PurchaseRequest> PurchaseRequests { get; set; }
+
     public virtual DbSet<Reason> Reasons { get; set; }
 
     public virtual DbSet<Reference> References { get; set; }
@@ -2179,8 +2181,6 @@ public partial class EnpDBContext : DbContext
 
             entity.ToTable("Model");
 
-            entity.HasIndex(e => e.Code, "Model_pk2").IsUnique();
-
             entity.Property(e => e.ModelId).HasColumnName("Model_id");
             entity.Property(e => e.Code)
                 .HasMaxLength(50)
@@ -2787,6 +2787,59 @@ public partial class EnpDBContext : DbContext
                 .IsUnicode(false);
         });
 
+        modelBuilder.Entity<PurchaseRequest>(entity =>
+        {
+            entity.ToTable("PurchaseRequest");
+
+            entity.Property(e => e.Date).HasColumnType("datetime");
+            entity.Property(e => e.Description)
+                .HasMaxLength(100)
+                .IsUnicode(false);
+            entity.Property(e => e.Details)
+                .HasMaxLength(150)
+                .IsUnicode(false);
+            entity.Property(e => e.EquipmentId)
+                .HasMaxLength(50)
+                .IsUnicode(false);
+            entity.Property(e => e.PurchaseRequisition)
+                .HasMaxLength(50)
+                .IsUnicode(false);
+            entity.Property(e => e.ReferenceNo)
+                .HasMaxLength(50)
+                .IsUnicode(false);
+            entity.Property(e => e.Requestor)
+                .HasMaxLength(100)
+                .IsUnicode(false);
+            entity.Property(e => e.TenantId)
+                .HasMaxLength(50)
+                .IsUnicode(false);
+
+            entity.HasOne(d => d.Department).WithMany(p => p.PurchaseRequests)
+                .HasForeignKey(d => d.DepartmentId)
+                .OnDelete(DeleteBehavior.ClientSetNull)
+                .HasConstraintName("FK_PurchaseRequest_Department");
+
+            entity.HasOne(d => d.Equipment).WithMany(p => p.PurchaseRequests)
+                .HasPrincipalKey(p => p.EquipmentId)
+                .HasForeignKey(d => d.EquipmentId)
+                .HasConstraintName("FK_PurchaseRequest_Equipment");
+
+            entity.HasOne(d => d.GlAccount).WithMany(p => p.PurchaseRequests)
+                .HasForeignKey(d => d.GlAccountId)
+                .OnDelete(DeleteBehavior.ClientSetNull)
+                .HasConstraintName("FK_PurchaseRequest_GlAccount");
+
+            entity.HasOne(d => d.ReferenceType).WithMany(p => p.PurchaseRequests)
+                .HasForeignKey(d => d.ReferenceTypeId)
+                .OnDelete(DeleteBehavior.ClientSetNull)
+                .HasConstraintName("FK_PurchaseRequest_Reference");
+
+            entity.HasOne(d => d.Section).WithMany(p => p.PurchaseRequests)
+                .HasForeignKey(d => d.SectionId)
+                .OnDelete(DeleteBehavior.ClientSetNull)
+                .HasConstraintName("FK_PurchaseRequest_PucharseSection");
+        });
+
         modelBuilder.Entity<Reason>(entity =>
         {
             entity.ToTable("Reason");
@@ -2919,11 +2972,6 @@ public partial class EnpDBContext : DbContext
             entity.Property(e => e.TenantId)
                 .HasMaxLength(50)
                 .IsUnicode(false);
-
-            entity.HasOne(d => d.ModelNavigation).WithMany(p => p.Services)
-                .HasPrincipalKey(p => p.Code)
-                .HasForeignKey(d => d.Model)
-                .HasConstraintName("Services_Model_Code_fk");
         });
 
         modelBuilder.Entity<Source>(entity =>

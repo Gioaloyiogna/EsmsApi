@@ -42,7 +42,7 @@ public class ModelsController : BaeApiController<ModelsController>
                     Name = m.ModelClass.Name
                 }
                 : null,
-            Services = m.Services
+            //Services = m.Services
         })
         .ToListAsync();
   }

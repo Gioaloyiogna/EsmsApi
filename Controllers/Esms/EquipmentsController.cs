@@ -69,7 +69,7 @@ public class EquipmentsController : BaeApiController<EquipmentPostDto>
                     Code = e.Model.Code,
                     LubeConfigs = e.Model.LubeConfigs,
                     PictureLink = e.Model.PictureLink,
-                    Services = e.Model.Services,
+                    //Services = e.Model.Services,
                     Manufacturer = new Manufacturer
                     {
                         ManufacturerId = e.Model.Manufacturer.ManufacturerId,
@@ -121,6 +121,7 @@ public class EquipmentsController : BaeApiController<EquipmentPostDto>
                 Status=e.Status,
                 InitialReading = e.InitialReading,
                 Adjustment = e.Adjustment,
+                TenantId=e.TenantId,
                 HoursEntries = e.HoursEntries
                     .Where(entry => entry.TenantId == tenantId && entry.FleetId == e.EquipmentId &&
                                     entry.EntrySource == "Normal Reading")
@@ -142,7 +143,7 @@ public class EquipmentsController : BaeApiController<EquipmentPostDto>
                         Code = e.Model.Code,
                         LubeConfigs = e.Model.LubeConfigs,
                         PictureLink = e.Model.PictureLink,
-                        Services = e.Model.Services,
+                        //Services = e.Model.Services,
                         Manufacturer = new Manufacturer
                         {
                             ManufacturerId = e.Model.Manufacturer.ManufacturerId,
@@ -167,6 +168,13 @@ public class EquipmentsController : BaeApiController<EquipmentPostDto>
         return equipments.ToListAsync();
     }
 
+    // GET: api/Equipments/tenant/{tenantId}  with paging 
+    [HttpGet("EquipmentForAllLocations")]
+    public Task<List<Equipment>> GetEquipmentsForAllLocation()
+    {
+        var equipments = _context.Equipment.ToListAsync();
+        return equipments;
+    }
 
 
     // GET: api/Equipments/5

@@ -38,6 +38,7 @@ using ServiceManagerApi.Dtos.ProductionOrigin;
 using ServiceManagerApi.Dtos.ProductionShift;
 using ServiceManagerApi.Dtos.ProHaulerUnits;
 using ServiceManagerApi.Dtos.ProLoaderUnits;
+using ServiceManagerApi.Dtos.PurchaseDto;
 using ServiceManagerApi.Dtos.RefillTypes;
 using ServiceManagerApi.Dtos.Resolution;
 using ServiceManagerApi.Dtos.ResolutionTypes;
@@ -116,6 +117,7 @@ public class AutoMappingProfiles : Profile
         CreateMap<TransferDto, Transfer>();
         CreateMap<PartsRobbingDto,PartsRobbing>();
         CreateMap<TrackerDto, Tracker>();
+        CreateMap<PurchaseDto, PurchaseRequest>();
 
     }
 }
